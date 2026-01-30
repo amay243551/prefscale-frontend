@@ -58,7 +58,7 @@ export default function Blog() {
             desc="A practical starting point covering performance testing basics,
             system behavior, and scalability fundamentals."
             onDownload={() =>
-              handleDownload("/performance-testing-basics.pdf")
+              handleDownload("/JMeter Perfmon Integration.pdf")
             }
             buttonText="Download Foundations Guide (PDF)"
           />
@@ -70,7 +70,7 @@ export default function Blog() {
             desc="In-depth techniques covering load modeling, bottleneck analysis,
             capacity planning, and production tuning strategies."
             onDownload={() =>
-              handleDownload("/advanced-performance-engineering.pdf")
+              handleDownload("/Webtours_Test_Fragment.pdf")
             }
             buttonText="Download Advanced Guide (PDF)"
           />
