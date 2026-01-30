@@ -13,17 +13,25 @@ export default function Login({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 🔥 IMPORTANT FIX: clear old corrupted data
+    localStorage.clear();
+
     try {
       setLoading(true);
 
       const res = await api.post("/api/login", form);
+
+      // ✅ basic safety check
+      if (!res.data?.token || !res.data?.role) {
+        throw new Error("Invalid login response");
+      }
 
       // ✅ Save token + role
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
 
       const userData = {
-        name: res.data.name,
+        name: res.data.name || "User",
         role: res.data.role,
       };
 
@@ -37,6 +45,7 @@ export default function Login({ setUser }) {
         navigate("/");
       }
     } catch (err) {
+      console.error(err);
       alert(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
@@ -65,7 +74,7 @@ export default function Login({ setUser }) {
           required
         />
 
-        <button className="w-full bg-black text-white py-2">
+        <button className="w-full bg-black text-white py-2" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
 
