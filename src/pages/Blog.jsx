@@ -1,7 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Blog() {
-  const [activeTab, setActiveTab] = useState("launchpad");
+  const [activeTab, setActiveTab] = useState("foundations");
+  const navigate = useNavigate();
+
+  // 🔐 CHECK LOGIN BEFORE DOWNLOAD
+  const handleDownload = (pdfUrl) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login or signup to download this resource.");
+      navigate("/login");
+      return;
+    }
+
+    // ✅ USER LOGGED IN → DOWNLOAD
+    window.open(pdfUrl, "_blank");
+  };
 
   return (
     <div className="bg-slate-50 min-h-screen py-20">
@@ -13,48 +29,50 @@ export default function Blog() {
             Performance Engineering Blog
           </h1>
           <p className="mt-4 text-slate-600 max-w-2xl mx-auto">
-            Structured learning paths covering performance engineering —
-            from core concepts to enterprise-scale systems.
+            Learn performance engineering from fundamentals to real-world
+            production-grade practices.
           </p>
         </div>
 
         {/* TABS */}
         <div className="flex justify-center gap-6 mb-12">
           <TabButton
-            active={activeTab === "launchpad"}
-            onClick={() => setActiveTab("launchpad")}
+            active={activeTab === "foundations"}
+            onClick={() => setActiveTab("foundations")}
           >
-            🚀 LaunchPad
+            Foundations
           </TabButton>
 
           <TabButton
-            active={activeTab === "deepscale"}
-            onClick={() => setActiveTab("deepscale")}
+            active={activeTab === "deep"}
+            onClick={() => setActiveTab("deep")}
           >
-            ⚙️ DeepScale
+            Deep Dive
           </TabButton>
         </div>
 
         {/* CONTENT */}
-        {activeTab === "launchpad" && (
+        {activeTab === "foundations" && (
           <Section
-            title="LaunchPad — Core Performance Foundations"
-            desc="This track is designed for engineers starting with performance
-            engineering. It focuses on understanding system behavior,
-            performance testing fundamentals, and scalability basics."
-            pdf="/performance-testing-basics.pdf"
-            pdfName="Download LaunchPad Guide (PDF)"
+            title="Foundations of Performance Engineering"
+            desc="A practical starting point covering performance testing basics,
+            system behavior, and scalability fundamentals."
+            onDownload={() =>
+              handleDownload("/performance-testing-basics.pdf")
+            }
+            buttonText="Download Foundations Guide (PDF)"
           />
         )}
 
-        {activeTab === "deepscale" && (
+        {activeTab === "deep" && (
           <Section
-            title="DeepScale — Advanced Performance Engineering"
-            desc="This track is aimed at engineers working on high-traffic
-            applications. It covers advanced load modeling, bottleneck
-            analysis, capacity planning, and production-level tuning."
-            pdf="/advanced-performance-engineering.pdf"
-            pdfName="Download DeepScale Guide (PDF)"
+            title="Advanced Performance Engineering"
+            desc="In-depth techniques covering load modeling, bottleneck analysis,
+            capacity planning, and production tuning strategies."
+            onDownload={() =>
+              handleDownload("/advanced-performance-engineering.pdf")
+            }
+            buttonText="Download Advanced Guide (PDF)"
           />
         )}
       </div>
@@ -80,19 +98,18 @@ function TabButton({ children, active, onClick }) {
   );
 }
 
-function Section({ title, desc, pdf, pdfName }) {
+function Section({ title, desc, onDownload, buttonText }) {
   return (
     <div className="bg-white rounded-xl shadow p-10 max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold text-slate-800">{title}</h2>
       <p className="mt-4 text-slate-600 leading-relaxed">{desc}</p>
 
-      <a
-        href={pdf}
-        download
+      <button
+        onClick={onDownload}
         className="inline-block mt-6 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
       >
-        {pdfName}
-      </a>
+        {buttonText}
+      </button>
     </div>
   );
 }
