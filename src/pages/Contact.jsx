@@ -1,3 +1,4 @@
+/*
 import { useState } from "react";
 import api from "../utils/api";   // ✅ USE API UTILITY
 
@@ -49,7 +50,7 @@ export default function Contact() {
     <div className="bg-gray-50 min-h-screen">
 
       {/* IMAGE HERO */}
-      <section className="relative">
+/*      <section className="relative">
         <img
           src="https://images.unsplash.com/photo-1522071820081-009f0129c71c"
           alt="Team discussion"
@@ -68,11 +69,13 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* CONTENT */}
+      {/* CONTENT */
+/*
+}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-2 gap-16">
 
-          {/* LEFT TEXT */}
+          {/* LEFT TEXT *//*}
           <div className="flex items-center">
             <div>
               <h2 className="text-2xl font-bold text-gray-800">
@@ -87,7 +90,8 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* FORM */}
+          {/* FORM *//*
+          }
           <form
             onSubmit={handleSubmit}
             className="bg-white p-10 rounded-xl shadow-lg space-y-6"
@@ -145,7 +149,7 @@ export default function Contact() {
 }
 
 /* ---------- INPUT COMPONENT ---------- */
-
+/*
 function Input({ label, name, value, onChange, type = "text" }) {
   return (
     <div>
@@ -161,3 +165,4 @@ function Input({ label, name, value, onChange, type = "text" }) {
     </div>
   );
 }
+*/
