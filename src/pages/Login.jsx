@@ -15,15 +15,24 @@ export default function Login({ setUser }) {
 
     try {
       setLoading(true);
+
       const res = await api.post("/api/login", form);
 
+      // ✅ Save token + role
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("role", res.data.role);
 
-      setUser(res.data.user);
+      // optional user object
+      const userData = {
+        name: res.data.name,
+        role: res.data.role,
+      };
 
-      // 🔐 Admin goes to dashboard
-      if (res.data.user.role === "admin") {
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData);
+
+      // 🔐 Role-based redirect
+      if (res.data.role === "admin") {
         navigate("/admin");
       } else {
         navigate("/");
@@ -45,13 +54,16 @@ export default function Login({ setUser }) {
           placeholder="Email"
           className="w-full mb-3 p-2 border"
           onChange={handleChange}
+          required
         />
+
         <input
           name="password"
           type="password"
           placeholder="Password"
           className="w-full mb-3 p-2 border"
           onChange={handleChange}
+          required
         />
 
         <button className="w-full bg-black text-white py-2">
