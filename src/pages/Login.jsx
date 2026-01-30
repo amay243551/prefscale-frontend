@@ -29,11 +29,22 @@ export default function Login({ setUser }) {
 
       const res = await api.post("/api/login", form);
 
+      /* ================= SAVE AUTH DATA ================= */
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("role", res.data.role); // ✅ IMPORTANT (admin / user)
 
       setUser(res.data.user);
-      navigate("/dashboard");
+
+      /* ================= REDIRECT LOGIC ================= */
+      // if user was forced to login for download → go back
+      const redirectTo = localStorage.getItem("redirectAfterLogin");
+      if (redirectTo) {
+        localStorage.removeItem("redirectAfterLogin");
+        navigate(redirectTo);
+      } else {
+        navigate("/"); // default home
+      }
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
     } finally {
