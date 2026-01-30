@@ -1,99 +1,79 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 
-export default function Login({ setUser }) {
+export default function Blog() {
   const navigate = useNavigate();
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
 
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!form.email || !form.password) {
-      alert("All fields are required");
-      return;
+  /* ================= AUTH CHECK ================= */
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
     }
+  }, [token, navigate]);
 
-    try {
-      setLoading(true);
-
-      const res = await api.post("/api/login", form);
-
-      /* ================= SAVE AUTH DATA ================= */
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      localStorage.setItem("role", res.data.role); // ✅ IMPORTANT (admin / user)
-
-      setUser(res.data.user);
-
-      /* ================= REDIRECT LOGIC ================= */
-      // if user was forced to login for download → go back
-      const redirectTo = localStorage.getItem("redirectAfterLogin");
-      if (redirectTo) {
-        localStorage.removeItem("redirectAfterLogin");
-        navigate(redirectTo);
-      } else {
-        navigate("/"); // default home
+  /* ================= FETCH BLOGS ================= */
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await api.get("/api/blogs");
+        setBlogs(res.data);
+      } catch (err) {
+        console.error("Failed to fetch blogs", err);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    fetchBlogs();
+  }, []);
+
+  if (loading) {
+    return <p className="text-center mt-10">Loading blogs...</p>;
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-      >
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Login</h2>
+    <div className="max-w-5xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold mb-6">Blogs</h1>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="w-full mb-4 px-4 py-2 border rounded"
-          value={form.email}
-          onChange={handleChange}
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          className="w-full mb-4 px-4 py-2 border rounded"
-          value={form.password}
-          onChange={handleChange}
-        />
-
+      {/* ================= ADMIN UPLOAD ================= */}
+      {role === "admin" && (
         <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
+          onClick={() => navigate("/dashboard")}
+          className="mb-6 bg-black text-white px-4 py-2 rounded"
         >
-          {loading ? "Logging in..." : "Login"}
+          Upload Blog
         </button>
+      )}
 
-        <p className="mt-4 text-sm text-gray-600">
-          Don’t have an account?{" "}
-          <Link to="/signup" className="text-blue-600 font-medium">
-            Signup
-          </Link>
-        </p>
-      </form>
+      {/* ================= BLOG LIST ================= */}
+      {blogs.length === 0 ? (
+        <p>No blogs available</p>
+      ) : (
+        blogs.map((blog) => (
+          <div
+            key={blog._id}
+            className="border p-4 rounded mb-4 shadow-sm"
+          >
+            <h2 className="text-xl font-semibold">{blog.title}</h2>
+            <p className="text-gray-600 mb-2">{blog.description}</p>
+
+            <a
+              href={`https://prefscale-backend.onrender.com/uploads/${blog.pdf}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 font-medium"
+            >
+              Download PDF
+            </a>
+          </div>
+        ))
+      )}
     </div>
   );
 }
-
