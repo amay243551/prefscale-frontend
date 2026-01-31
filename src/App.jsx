@@ -8,13 +8,13 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Blog from "./pages/Blog";
 import Dashboard from "./pages/Dashboard";
+import UploadBlog from "./pages/UploadBlog";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   const [user, setUser] = useState(() => {
     try {
       const stored = localStorage.getItem("user");
-      // ✅ handle null, "undefined", corrupted JSON
       if (!stored || stored === "undefined") return null;
       return JSON.parse(stored);
     } catch (err) {
@@ -35,11 +35,12 @@ export default function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
 
+        {/* 🔐 ADMIN ONLY: Upload Blog (DIRECT PAGE, NOT DASHBOARD) */}
         <Route
-          path="/dashboard"
+          path="/upload-blog"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <UploadBlog />
             </ProtectedRoute>
           }
         />
