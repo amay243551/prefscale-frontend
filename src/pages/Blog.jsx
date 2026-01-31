@@ -1,26 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../utils/api";
 
 export default function Blog() {
   const [activeTab, setActiveTab] = useState("foundations");
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
-
-  // ⭐ NEW: get role
   const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
 
-  // 🔐 CHECK LOGIN BEFORE DOWNLOAD
-  const handleDownload = (pdfUrl) => {
-    const token = localStorage.getItem("token");
-
+  /* 🔐 CHECK LOGIN BEFORE DOWNLOAD */
+  const handleDownload = (file) => {
     if (!token) {
       alert("Please login or signup to download this resource.");
       navigate("/login");
       return;
     }
 
-    // ✅ USER LOGGED IN → DOWNLOAD
-    window.open(pdfUrl, "_blank");
+    window.open(
+      `${import.meta.env.VITE_BACKEND_URL}/uploads/${file}`,
+      "_blank"
+    );
   };
+
+  /* 📡 FETCH BLOGS FROM BACKEND */
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await api.get("/api/blogs");
+        setBlogs(res.data);
+      } catch (err) {
+        console.error("Failed to fetch blogs", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  const filteredBlogs = blogs.filter(
+    (b) => b.category === activeTab
+  );
+
+  if (loading) {
+    return <p className="text-center mt-10">Loading blogs...</p>;
+  }
 
   return (
     <div className="bg-slate-50 min-h-screen py-20">
@@ -38,7 +65,7 @@ export default function Blog() {
         </div>
 
         {/* TABS */}
-        <div className="flex justify-center gap-6 mb-8">
+        <div className="flex justify-center gap-6 mb-10">
           <TabButton
             active={activeTab === "foundations"}
             onClick={() => setActiveTab("foundations")}
@@ -54,41 +81,45 @@ export default function Blog() {
           </TabButton>
         </div>
 
-        {/* ⭐ NEW: ADMIN UPLOAD BUTTON */}
+        {/* ADMIN UPLOAD BUTTON */}
         {role === "admin" && (
-       {role === "admin" && (
-  <div className="flex justify-center mb-10">
-    <button
-      onClick={() => navigate("/upload-blog")}
-      className="bg-black text-white px-6 py-3 rounded"
-    >
-      Upload Blogs
-    </button>
-  </div>
-)}
-        {/* CONTENT */}
-        {activeTab === "foundations" && (
-          <Section
-            title="Foundations of Performance Engineering"
-            desc="A practical starting point covering performance testing basics,
-            system behavior, and scalability fundamentals."
-            onDownload={() =>
-              handleDownload("/performance-testing-basics.pdf")
-            }
-            buttonText="Download Foundations Guide (PDF)"
-          />
+          <div className="flex justify-center mb-12">
+            <button
+              onClick={() => navigate("/upload-blog")}
+              className="bg-black text-white px-6 py-3 rounded"
+            >
+              Upload Blogs
+            </button>
+          </div>
         )}
 
-        {activeTab === "deep" && (
-          <Section
-            title="Advanced Performance Engineering"
-            desc="In-depth techniques covering load modeling, bottleneck analysis,
-            capacity planning, and production tuning strategies."
-            onDownload={() =>
-              handleDownload("/advanced-performance-engineering.pdf")
-            }
-            buttonText="Download Advanced Guide (PDF)"
-          />
+        {/* BLOG LIST */}
+        {filteredBlogs.length === 0 ? (
+          <p className="text-center text-gray-500">
+            No blogs available in this category
+          </p>
+        ) : (
+          filteredBlogs.map((blog) => (
+            <div
+              key={blog._id}
+              className="bg-white rounded-xl shadow p-8 mb-6"
+            >
+              <h2 className="text-2xl font-bold text-slate-800">
+                {blog.title}
+              </h2>
+
+              <p className="mt-3 text-slate-600">
+                {blog.description}
+              </p>
+
+              <button
+                onClick={() => handleDownload(blog.file)}
+                className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
+              >
+                Download File
+              </button>
+            </div>
+          ))
         )}
       </div>
     </div>
@@ -110,21 +141,5 @@ function TabButton({ children, active, onClick }) {
     >
       {children}
     </button>
-  );
-}
-
-function Section({ title, desc, onDownload, buttonText }) {
-  return (
-    <div className="bg-white rounded-xl shadow p-10 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-slate-800">{title}</h2>
-      <p className="mt-4 text-slate-600 leading-relaxed">{desc}</p>
-
-      <button
-        onClick={onDownload}
-        className="inline-block mt-6 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
-      >
-        {buttonText}
-      </button>
-    </div>
   );
 }
