@@ -11,28 +11,41 @@ export default function Blog() {
   const role = localStorage.getItem("role");
   const token = localStorage.getItem("token");
 
-  /* ================= DOWNLOAD ================= */
-  const handleDownload = (fileUrl) => {
+  /* 🔐 ENSURE LOGIN */
+  const ensureLogin = () => {
     if (!token) {
-      alert("Please login or signup to download this resource.");
+      alert("Please login or signup to continue.");
       navigate("/login");
-      return;
+      return false;
     }
-
-    // Cloudinary URLs open directly
-    window.open(fileUrl, "_blank");
+    return true;
   };
 
-  /* ================= DELETE (ADMIN) ================= */
+  /* 👁️ VIEW FILE (READ ONLINE) */
+  const handleView = (fileUrl) => {
+    if (!ensureLogin()) return;
+    window.open(fileUrl, "_blank"); // browser PDF viewer
+  };
+
+  /* ⬇️ DOWNLOAD FILE */
+  const handleDownload = (fileUrl) => {
+    if (!ensureLogin()) return;
+
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = "";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  /* 🗑️ DELETE (ADMIN ONLY) */
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this blog?")) return;
 
     try {
       await api.delete(`/api/admin/blog/${id}`);
-
-      // remove from UI instantly
       setBlogs((prev) => prev.filter((b) => b._id !== id));
-
       alert("Blog deleted successfully ✅");
     } catch (err) {
       console.error(err);
@@ -40,7 +53,7 @@ export default function Blog() {
     }
   };
 
-  /* ================= FETCH BLOGS ================= */
+  /* 📡 FETCH BLOGS */
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -136,6 +149,15 @@ export default function Blog() {
                 </div>
 
                 <div className="mt-6 flex gap-3 flex-wrap">
+                  {/* VIEW */}
+                  <button
+                    onClick={() => handleView(blog.fileUrl)}
+                    className="bg-slate-700 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg transition"
+                  >
+                    View
+                  </button>
+
+                  {/* DOWNLOAD */}
                   <button
                     onClick={() => handleDownload(blog.fileUrl)}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg transition"
@@ -143,6 +165,7 @@ export default function Blog() {
                     Download
                   </button>
 
+                  {/* DELETE */}
                   {role === "admin" && (
                     <button
                       onClick={() => handleDelete(blog._id)}
