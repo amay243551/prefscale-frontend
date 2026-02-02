@@ -12,17 +12,15 @@ export default function Blog() {
   const token = localStorage.getItem("token");
 
   /* 🔐 CHECK LOGIN BEFORE DOWNLOAD */
-  const handleDownload = (pdf) => {
+  const handleDownload = (fileUrl) => {
     if (!token) {
       alert("Please login or signup to download this resource.");
       navigate("/login");
       return;
     }
 
-    window.open(
-      `${import.meta.env.VITE_BACKEND_URL}/public/${pdf}`,
-      "_blank"
-    );
+    // ✅ CLOUDINARY FILE (DIRECT)
+    window.open(fileUrl, "_blank");
   };
 
   /* 📡 FETCH BLOGS BY CATEGORY */
@@ -30,9 +28,7 @@ export default function Blog() {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
-        const res = await api.get(
-          `/api/blogs?category=${activeTab}`
-        );
+        const res = await api.get(`/api/blogs?category=${activeTab}`);
         setBlogs(res.data);
       } catch (err) {
         console.error("Failed to fetch blogs", err);
@@ -112,7 +108,7 @@ export default function Blog() {
               </p>
 
               <button
-                onClick={() => handleDownload(blog.pdf)}
+                onClick={() => handleDownload(blog.fileUrl)}
                 className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
               >
                 Download File
