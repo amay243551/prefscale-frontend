@@ -20,7 +20,7 @@ export default function Blog() {
     }
 
     window.open(
-      `${import.meta.env.VITE_BACKEND_URL}/uploads/${pdf}`,
+      `${import.meta.env.VITE_BACKEND_URL}/public/${pdf}`,
       "_blank"
     );
   };
