@@ -11,7 +11,7 @@ export default function Blog() {
   const role = localStorage.getItem("role");
   const token = localStorage.getItem("token");
 
-  /* 🔐 DOWNLOAD HANDLER */
+  /* ================= DOWNLOAD ================= */
   const handleDownload = (fileUrl) => {
     if (!token) {
       alert("Please login or signup to download this resource.");
@@ -19,30 +19,28 @@ export default function Blog() {
       return;
     }
 
-    // Cloudinary URL → open directly
+    // Cloudinary URLs open directly
     window.open(fileUrl, "_blank");
   };
 
-  /* 🗑️ ADMIN DELETE */
+  /* ================= DELETE (ADMIN) ================= */
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this blog?")) return;
 
     try {
-      await api.delete(`/api/admin/blog/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await api.delete(`/api/admin/blog/${id}`);
 
       // remove from UI instantly
       setBlogs((prev) => prev.filter((b) => b._id !== id));
+
+      alert("Blog deleted successfully ✅");
     } catch (err) {
-      alert("Failed to delete blog");
       console.error(err);
+      alert("Failed to delete blog ❌");
     }
   };
 
-  /* 📡 FETCH BLOGS */
+  /* ================= FETCH BLOGS ================= */
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -163,7 +161,7 @@ export default function Blog() {
   );
 }
 
-/* ================= COMPONENT ================= */
+/* ================= TAB BUTTON ================= */
 
 function TabButton({ children, active, onClick }) {
   return (
