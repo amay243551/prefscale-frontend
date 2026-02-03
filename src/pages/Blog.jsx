@@ -21,16 +21,26 @@ export default function Blog() {
     return true;
   };
 
-/* 👁️ VIEW PDF (READ ONLINE – NO DOWNLOAD) */
-const handleView = (fileUrl) => {
-  if (!ensureLogin()) return;
+  /* 📅 FORMAT DATE */
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
-  const viewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
-    fileUrl
-  )}&embedded=true`;
+  /* 👁️ VIEW PDF (READ ONLINE – NO DOWNLOAD) */
+  const handleView = (fileUrl) => {
+    if (!ensureLogin()) return;
 
-  window.open(viewerUrl, "_blank");
-};
+    const viewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
+      fileUrl
+    )}&embedded=true`;
+
+    window.open(viewerUrl, "_blank");
+  };
 
   /* ⬇️ DOWNLOAD PDF WITH CORRECT NAME */
   const handleDownload = async (fileUrl, title) => {
@@ -45,7 +55,7 @@ const handleView = (fileUrl) => {
 
       const safeTitle = title.replace(/[^a-zA-Z0-9]/g, "_");
       link.href = url;
-      link.download = `${safeTitle}.pdf`; // proper filename
+      link.download = `${safeTitle}.pdf`;
 
       document.body.appendChild(link);
       link.click();
@@ -151,8 +161,15 @@ const handleView = (fileUrl) => {
             {blogs.map((blog) => (
               <div
                 key={blog._id}
-                className="bg-white rounded-2xl shadow-md p-8 flex flex-col justify-between"
+                className="relative group bg-white rounded-2xl shadow-md p-8 flex flex-col justify-between hover:shadow-lg transition"
               >
+                {/* 📅 DATE ON HOVER */}
+                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition">
+                  <span className="text-xs bg-slate-900 text-white px-3 py-1 rounded-full">
+                    {formatDate(blog.createdAt)}
+                  </span>
+                </div>
+
                 <div>
                   <span className="inline-block mb-3 text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">
                     {blog.category.toUpperCase()}
@@ -190,7 +207,7 @@ const handleView = (fileUrl) => {
                   {role === "admin" && (
                     <button
                       onClick={() => handleDelete(blog._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg"
+                      className="bg-slate-700 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg"
                     >
                       Delete
                     </button>
