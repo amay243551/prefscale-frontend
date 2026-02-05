@@ -13,7 +13,7 @@ export default function Login({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔥 IMPORTANT FIX: clear old corrupted data
+    // 🔥 clear old auth data
     localStorage.clear();
 
     try {
@@ -21,29 +21,25 @@ export default function Login({ setUser }) {
 
       const res = await api.post("/api/login", form);
 
-      // ✅ basic safety check
+      // ✅ safety check
       if (!res.data?.token || !res.data?.role) {
         throw new Error("Invalid login response");
       }
 
-      // ✅ Save token + role
+      // ✅ Save auth data
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
 
       const userData = {
-        name: res.data.name || "User",
         role: res.data.role,
       };
 
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
 
-      // ✅ Correct redirect
-      if (res.data.role === "admin") {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
+      // ✅ FIX: always redirect to HOME
+      navigate("/", { replace: true });
+
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || "Login failed");
@@ -74,7 +70,10 @@ export default function Login({ setUser }) {
           required
         />
 
-        <button className="w-full bg-black text-white py-2" disabled={loading}>
+        <button
+          className="w-full bg-black text-white py-2"
+          disabled={loading}
+        >
           {loading ? "Logging in..." : "Login"}
         </button>
 
