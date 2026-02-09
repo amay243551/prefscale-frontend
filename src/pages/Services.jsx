@@ -20,7 +20,7 @@ const pageTransition = {
 /* ================= TRAFFIC WAVE ================= */
 const wave = {
   animate: {
-    x: ["-100%", "100%"],
+    x: ["0%", "100%"],
     transition: {
       repeat: Infinity,
       duration: 6,
@@ -37,10 +37,11 @@ export default function Services() {
       animate="visible"
       exit="exit"
       transition={{ duration: 0.6 }}
-      className="overflow-hidden"
+      className="bg-black text-white overflow-hidden"
     >
+
       {/* ================= HERO ================= */}
-      <section className="relative min-h-screen flex items-center justify-center bg-black text-white">
+      <section className="relative min-h-screen flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-black to-slate-900" />
 
         {/* TRAFFIC WAVES */}
@@ -76,10 +77,10 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ================= SERVICES (LIGHT BACKGROUND) ================= */}
-      <section className="py-24 bg-gradient-to-b from-white to-slate-100 text-slate-900">
+      {/* ================= SERVICES GRID ================= */}
+      <section className="py-24 bg-slate-950">
         <div className="max-w-7xl mx-auto px-8">
-          <h2 className="text-4xl font-bold text-center mb-16 text-slate-900">
+          <h2 className="text-4xl font-bold text-center mb-16">
             What We Test Under Load
           </h2>
 
@@ -87,47 +88,46 @@ export default function Services() {
             <ServiceCard
               icon={<Gauge />}
               title="Load Testing"
-              desc="Validate system behavior under expected concurrent users and steady traffic."
+              desc="Validate behavior under expected concurrent users."
             />
             <ServiceCard
               icon={<Zap />}
               title="Stress Testing"
-              desc="Push applications beyond limits to discover breaking points and failure behavior."
+              desc="Identify breaking points beyond normal capacity."
             />
             <ServiceCard
               icon={<Activity />}
               title="Spike Testing"
-              desc="Analyze sudden traffic bursts and system reaction under extreme conditions."
+              desc="Analyze sudden traffic surges and system reaction."
             />
             <ServiceCard
               icon={<Database />}
               title="Database Performance"
-              desc="Expose slow queries, connection pool exhaustion, and concurrency issues."
+              desc="Expose query latency and connection pool limits."
             />
             <ServiceCard
               icon={<Cloud />}
               title="Scalability Testing"
-              desc="Validate auto-scaling, cloud limits, and infrastructure elasticity."
+              desc="Validate cloud scaling, auto-healing and limits."
             />
             <ServiceCard
               icon={<ShieldCheck />}
               title="Reliability Engineering"
-              desc="Ensure graceful failure, resilience, and high availability under load."
+              desc="Ensure graceful failure and system resilience."
             />
           </div>
         </div>
       </section>
 
       {/* ================= WHY IT MATTERS ================= */}
-      <section className="py-24 bg-black text-white text-center">
+      <section className="py-24 bg-black text-center">
         <h2 className="text-4xl font-bold">
           Traffic Is Predictable. Failures Are Not.
         </h2>
 
         <p className="mt-8 text-slate-400 max-w-3xl mx-auto leading-relaxed">
-          Most production outages are not caused by bugs —
-          they are caused by untested concurrency, saturation,
-          and infrastructure limits.
+          Most outages are not caused by bugs — they are caused by
+          untested concurrency, saturation, and scaling limits.
           <br /><br />
           PREFSCALE makes those limits visible before users experience them.
         </p>
@@ -143,14 +143,14 @@ function ServiceCard({ icon, title, desc }) {
     <motion.div
       whileHover={{ y: -8 }}
       transition={{ type: "spring", stiffness: 200 }}
-      className="relative bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl border border-slate-700 hover:border-sky-500 text-white"
+      className="relative bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-2xl border border-slate-700 hover:border-sky-500"
     >
       <div className="absolute -top-6 left-6 text-sky-400">
         {icon}
       </div>
 
       <h3 className="mt-6 text-xl font-semibold">{title}</h3>
-      <p className="mt-3 text-slate-300 text-sm">{desc}</p>
+      <p className="mt-3 text-slate-400 text-sm">{desc}</p>
     </motion.div>
   );
 }
