@@ -8,9 +8,34 @@ import {
   Server,
   Users,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  /* ================= CTA HANDLERS ================= */
+
+  const handleStartTesting = () => {
+    if (token) {
+      navigate("/blog"); // logged in users
+    } else {
+      navigate("/signup"); // new users
+    }
+  };
+
+  const handleLearnPerformance = () => {
+    navigate("/blog");
+  };
+
+  const handleGetStartedFree = () => {
+    if (token) {
+      navigate("/"); // already logged in → stay home
+    } else {
+      navigate("/signup");
+    }
+  };
+
   return (
     <div className="bg-white">
 
@@ -36,19 +61,19 @@ export default function Home() {
             </p>
 
             <div className="mt-10 flex gap-4">
-              <Link
-                to="/signup"
+              <button
+                onClick={handleStartTesting}
                 className="bg-white text-slate-900 px-6 py-3 rounded-md font-semibold hover:bg-slate-100 transition"
               >
                 Start Testing
-              </Link>
+              </button>
 
-              <Link
-                to="/blog"
+              <button
+                onClick={handleLearnPerformance}
                 className="flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-md font-medium hover:bg-white/10 transition"
               >
                 Learn Performance <ArrowRight size={18} />
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -138,12 +163,12 @@ export default function Home() {
           Don’t wait for production failures. Test, validate, and scale with confidence.
         </p>
 
-        <Link
-          to="/signup"
+        <button
+          onClick={handleGetStartedFree}
           className="inline-block mt-6 bg-white text-slate-900 px-8 py-3 rounded-md font-semibold hover:bg-slate-100 transition"
         >
           Get Started Free
-        </Link>
+        </button>
       </section>
     </div>
   );
