@@ -9,19 +9,22 @@ import {
   Users,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
+/* ================= PAGE ANIMATION ================= */
+const pageVariant = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -30 },
+};
 
 export default function Home() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   /* ================= CTA HANDLERS ================= */
-
   const handleStartTesting = () => {
-    if (token) {
-      navigate("/blog"); // logged in users
-    } else {
-      navigate("/signup"); // new users
-    }
+    token ? navigate("/blog") : navigate("/signup");
   };
 
   const handleLearnPerformance = () => {
@@ -29,17 +32,19 @@ export default function Home() {
   };
 
   const handleGetStartedFree = () => {
-    if (token) {
-      navigate("/"); // already logged in → stay home
-    } else {
-      navigate("/signup");
-    }
+    token ? navigate("/") : navigate("/signup");
   };
 
   return (
-    <div className="bg-white">
-
-      {/* ================= HERO SECTION ================= */}
+    <motion.div
+      variants={pageVariant}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      transition={{ duration: 0.5 }}
+      className="bg-white"
+    >
+      {/* ================= HERO ================= */}
       <section className="relative h-[90vh] overflow-hidden bg-black">
         <img
           src="https://images.unsplash.com/photo-1518770660439-4636190af475"
@@ -61,25 +66,28 @@ export default function Home() {
             </p>
 
             <div className="mt-10 flex gap-4">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={handleStartTesting}
-                className="bg-white text-slate-900 px-6 py-3 rounded-md font-semibold hover:bg-slate-100 transition"
+                className="bg-white text-slate-900 px-6 py-3 rounded-md font-semibold"
               >
                 Start Testing
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
+                whileHover={{ x: 4 }}
                 onClick={handleLearnPerformance}
-                className="flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-md font-medium hover:bg-white/10 transition"
+                className="flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-md font-medium"
               >
                 Learn Performance <ArrowRight size={18} />
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= STATS SECTION ================= */}
+      {/* ================= STATS ================= */}
       <section className="py-16 bg-slate-50">
         <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-4 gap-8 text-center">
           <Stat icon={<Users />} value="100+" label="Concurrent Users Tested" />
@@ -96,114 +104,53 @@ export default function Home() {
             Why Teams Trust PREFSCALE
           </h2>
 
-          <p className="mt-4 text-slate-600 text-center max-w-2xl mx-auto">
-            Built by engineers, for engineers — focused on reliability,
-            scalability, and measurable performance.
-          </p>
-
           <div className="mt-14 grid md:grid-cols-4 gap-8">
-            <Feature
-              icon={<Gauge />}
-              title="Load Testing"
-              desc="Measure how your system behaves under expected traffic."
-            />
-            <Feature
-              icon={<Zap />}
-              title="Stress & Spike"
-              desc="Validate stability during traffic spikes and peak loads."
-            />
-            <Feature
-              icon={<Activity />}
-              title="Live Insights"
-              desc="Observe response times, failures, and throughput."
-            />
-            <Feature
-              icon={<ShieldCheck />}
-              title="Production Confidence"
-              desc="Ship features knowing your system can handle growth."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ================= HOW IT WORKS ================= */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-8">
-          <h2 className="text-3xl font-bold text-slate-900 text-center">
-            How PREFSCALE Works
-          </h2>
-
-          <div className="mt-16 grid md:grid-cols-3 gap-10">
-            <Step
-              number="01"
-              title="Design Tests"
-              desc="Define real-world traffic scenarios and user behavior."
-            />
-            <Step
-              number="02"
-              title="Execute Load"
-              desc="Simulate concurrent users using proven testing tools."
-            />
-            <Step
-              number="03"
-              title="Analyze Results"
-              desc="Identify bottlenecks and infrastructure limits."
-            />
+            <Feature icon={<Gauge />} title="Load Testing" desc="Expected traffic validation." />
+            <Feature icon={<Zap />} title="Stress & Spike" desc="Peak and burst handling." />
+            <Feature icon={<Activity />} title="Live Insights" desc="Latency & throughput." />
+            <Feature icon={<ShieldCheck />} title="Production Confidence" desc="Scale safely." />
           </div>
         </div>
       </section>
 
       {/* ================= FINAL CTA ================= */}
       <section className="py-14 bg-gradient-to-r from-slate-800 to-slate-900 text-center text-white">
-        <h2 className="text-3xl font-bold">
-          Performance Is a Feature
-        </h2>
+        <h2 className="text-3xl font-bold">Performance Is a Feature</h2>
 
-        <p className="mt-4 text-slate-300 max-w-xl mx-auto">
-          Don’t wait for production failures. Test, validate, and scale with confidence.
-        </p>
-
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
           onClick={handleGetStartedFree}
-          className="inline-block mt-6 bg-white text-slate-900 px-8 py-3 rounded-md font-semibold hover:bg-slate-100 transition"
+          className="mt-6 bg-white text-slate-900 px-8 py-3 rounded-md font-semibold"
         >
           Get Started Free
-        </button>
+        </motion.button>
       </section>
-    </div>
+    </motion.div>
   );
 }
 
-/* ================= REUSABLE COMPONENTS ================= */
+/* ================= COMPONENTS ================= */
 
 function Feature({ icon, title, desc }) {
   return (
-    <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+    <motion.div
+      whileHover={{ y: -6, scale: 1.03 }}
+      transition={{ type: "spring", stiffness: 200 }}
+      className="bg-white p-6 rounded-xl shadow"
+    >
       <div className="text-slate-700 mb-4">{icon}</div>
       <h3 className="font-semibold text-slate-900">{title}</h3>
       <p className="mt-2 text-sm text-slate-600">{desc}</p>
-    </div>
-  );
-}
-
-function Step({ number, title, desc }) {
-  return (
-    <div className="text-center">
-      <div className="text-slate-800 text-5xl font-bold">{number}</div>
-      <h3 className="mt-4 font-semibold text-slate-900">{title}</h3>
-      <p className="mt-2 text-slate-600 text-sm">{desc}</p>
-    </div>
+    </motion.div>
   );
 }
 
 function Stat({ icon, value, label }) {
   return (
-    <div>
-      <div className="flex justify-center text-slate-700 mb-3">
-        {icon}
-      </div>
+    <motion.div whileHover={{ scale: 1.05 }}>
+      <div className="flex justify-center text-slate-700 mb-3">{icon}</div>
       <div className="text-3xl font-bold text-slate-900">{value}</div>
       <p className="mt-1 text-sm text-slate-600">{label}</p>
-    </div>
+    </motion.div>
   );
 }
