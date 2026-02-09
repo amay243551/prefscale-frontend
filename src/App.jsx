@@ -1,36 +1,23 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Blog from "./pages/Blog";
+import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Blog from "./pages/Blog";
-import Dashboard from "./pages/Dashboard";
 import UploadBlog from "./pages/UploadBlog";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Services from "./pages/Services";
 
-
-export default function App() {
-  const [user, setUser] = useState(() => {
-    try {
-      const stored = localStorage.getItem("user");
-      if (!stored || stored === "undefined") return null;
-      return JSON.parse(stored);
-    } catch (err) {
-      console.error("Failed to parse user from localStorage", err);
-      localStorage.removeItem("user");
-      return null;
-    }
-  });
+function AnimatedRoutes({ user, setUser }) {
+  const location = useLocation();
 
   return (
-    <BrowserRouter>
-      <Navbar user={user} setUser={setUser} />
-
-      <Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
@@ -38,7 +25,6 @@ export default function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
 
-        {/* 🔐 ADMIN ONLY: Upload Blog (DIRECT PAGE, NOT DASHBOARD) */}
         <Route
           path="/upload-blog"
           element={
@@ -48,6 +34,23 @@ export default function App() {
           }
         />
       </Routes>
+    </AnimatePresence>
+  );
+}
+
+export default function App() {
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user"));
+    } catch {
+      return null;
+    }
+  });
+
+  return (
+    <BrowserRouter>
+      <Navbar user={user} setUser={setUser} />
+      <AnimatedRoutes user={user} setUser={setUser} />
     </BrowserRouter>
   );
 }
