@@ -13,6 +13,8 @@ import UploadBlog from "./pages/UploadBlog";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AllBlogs from "./pages/AllBlogs";
 import AllBlogDetail from "./pages/AllBlogDetail";
+import UploadAllBlog from "./pages/UploadAllBlog";
+
 
 
 function AnimatedRoutes({ user, setUser }) {
@@ -30,6 +32,14 @@ function AnimatedRoutes({ user, setUser }) {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
 
+        <Route
+  path="/upload-allblog"
+  element={
+    <ProtectedRoute>
+      <UploadAllBlog />
+    </ProtectedRoute>
+  }
+/>
         <Route
           path="/upload-blog"
           element={
