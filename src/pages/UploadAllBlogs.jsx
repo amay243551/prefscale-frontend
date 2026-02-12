@@ -1,61 +1,147 @@
-import { useState } from "react";
-import api from "../utils/api";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+import api from "../utils/api";
 
 export default function UploadAllBlog() {
+  const navigate = useNavigate();
+  const quillRef = useRef(null);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [file, setFile] = useState(null);
-  const navigate = useNavigate();
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // ✅ Safe Image Upload
+  const handleImageUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const res = await api.post(
+          "/api/admin/upload-image",
+          formData
+        );
+
+        const imageUrl = res.data.url;
+
+        const editor = quillRef.current.getEditor();
+        const range = editor.getSelection(true);
+        editor.insertEmbed(range.index, "image", imageUrl);
+      } catch (err) {
+        console.error(err);
+        alert("Image upload failed");
+      }
+    };
+  };
+
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, false] }],
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "image"],
+        ["clean"],
+      ],
+      handlers: {
+        image: handleImageUpload,
+      },
+    },
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("file", file);
+    if (!title || !description || !content) {
+      alert("All fields are required");
+      return;
+    }
 
-    await api.post("/api/admin/upload-allblog", formData);
+    try {
+      setLoading(true);
 
-    alert("Blog uploaded successfully 🚀");
-    navigate("/allblogs");
+      await api.post("/api/admin/upload-allblog", {
+        title,
+        description,
+        content,
+      });
+
+      alert("Blog uploaded successfully 🚀");
+      navigate("/allblogs");
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-black text-white">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white/10 backdrop-blur-xl p-10 rounded-3xl w-[500px]"
-      >
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          Upload New Blog
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-black text-white py-16 px-6">
+      <div className="max-w-5xl mx-auto bg-white/5 backdrop-blur-xl p-10 rounded-3xl border border-white/10">
+
+        <h2 className="text-4xl font-bold mb-8 text-center">
+          Create New Blog
         </h2>
 
-        <input
-          type="text"
-          placeholder="Title"
-          className="w-full p-3 mb-4 rounded text-black"
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <form onSubmit={handleSubmit}>
 
-        <textarea
-          placeholder="Description"
-          className="w-full p-3 mb-4 rounded text-black"
-          onChange={(e) => setDescription(e.target.value)}
-        />
+          <div className="mb-6">
+            <label className="block mb-2 text-sm">Title</label>
+            <input
+              type="text"
+              className="w-full p-3 rounded-lg text-black"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter blog title"
+            />
+          </div>
 
-        <input
-          type="file"
-          accept=".pdf,.doc,.docx"
-          className="mb-6"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
+          <div className="mb-6">
+            <label className="block mb-2 text-sm">Short Description</label>
+            <input
+              type="text"
+              className="w-full p-3 rounded-lg text-black"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Short summary"
+            />
+          </div>
 
-        <button className="w-full bg-blue-600 py-3 rounded">
-          Upload Blog
-        </button>
-      </form>
+          <div className="mb-8">
+            <label className="block mb-2 text-sm">Blog Content</label>
+            <ReactQuill
+              theme="snow"
+              value={content}
+              onChange={setContent}
+              modules={modules}
+              ref={quillRef}
+              className="bg-white text-black rounded-lg"
+              style={{ height: "400px", marginBottom: "50px" }}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-semibold transition"
+          >
+            {loading ? "Publishing..." : "Publish Blog"}
+          </button>
+
+        </form>
+      </div>
     </div>
   );
 }
