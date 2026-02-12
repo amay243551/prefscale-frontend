@@ -6,28 +6,41 @@ import api from "../utils/api";
 export default function AllBlogDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [blog, setBlog] = useState(null);
   const [recent, setRecent] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchBlog();
-    fetchRecent();
+    const fetchData = async () => {
+      try {
+        const blogRes = await api.get(`/api/blog/${id}`);
+        setBlog(blogRes.data);
+
+        const recentRes = await api.get("/api/blogs?section=allblogs");
+        setRecent(recentRes.data);
+      } catch (err) {
+        console.error("Error loading blog:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
-  const fetchBlog = async () => {
-    const res = await api.get(`/api/blog/${id}`);
-    setBlog(res.data);
-  };
-
-  const fetchRecent = async () => {
-    const res = await api.get("/api/blogs?section=allblogs");
-    setRecent(res.data.slice(0, 4));
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   if (!blog) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Loading...
+        Blog not found.
       </div>
     );
   }
@@ -51,7 +64,6 @@ export default function AllBlogDetail() {
         <div className="flex gap-6 mt-6 text-sm opacity-80">
           <span>By {blog.uploadedBy}</span>
           <span>{new Date(blog.createdAt).toDateString()}</span>
-          <span>5 min read</span>
         </div>
 
         {/* SHARE BUTTONS */}
@@ -82,14 +94,18 @@ export default function AllBlogDetail() {
 
         {/* ARTICLE */}
         <div className="lg:col-span-2">
-          <p className="text-lg text-slate-600 mb-10">
-            {blog.description}
-          </p>
 
-          {/* Render Rich HTML */}
+          {blog.description && (
+            <p className="text-lg text-slate-600 mb-10">
+              {blog.description}
+            </p>
+          )}
+
           <div
             className="prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
+            dangerouslySetInnerHTML={{
+              __html: blog.content || "<p>No content available.</p>",
+            }}
           />
         </div>
 
@@ -102,6 +118,7 @@ export default function AllBlogDetail() {
           <div className="space-y-6">
             {recent
               .filter((r) => r._id !== blog._id)
+              .slice(0, 4)
               .map((article) => (
                 <div
                   key={article._id}
