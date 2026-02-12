@@ -19,27 +19,21 @@ export default function AllBlogDetail() {
   if (!blog) return <div className="p-10">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-white px-8 py-12">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-6">{blog.title}</h1>
+    <div className="min-h-screen bg-white p-10">
+      <h1 className="text-4xl font-bold mb-6">{blog.title}</h1>
+      <p className="text-slate-600 mb-4">
+        Uploaded by {blog.uploadedBy}
+      </p>
+      <p className="text-lg mb-8">{blog.description}</p>
 
-        <p className="text-slate-600 mb-4">
-          Uploaded by {blog.uploadedBy}
-        </p>
-
-        <p className="text-lg leading-8 text-slate-700 mb-8">
-          {blog.description}
-        </p>
-
-        <a
-          href={blog.fileUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-slate-900 text-white px-6 py-3 rounded-md"
-        >
-          Read Full Document
-        </a>
-      </div>
+      <a
+        href={blog.fileUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-slate-900 text-white px-6 py-3 rounded"
+      >
+        Read Full Document
+      </a>
     </div>
   );
 }
