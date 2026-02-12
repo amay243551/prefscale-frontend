@@ -11,6 +11,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import UploadBlog from "./pages/UploadBlog";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AllBlogs from "./pages/AllBlogs";
+import AllBlogDetail from "./pages/AllBlogDetail";
+
 
 function AnimatedRoutes({ user, setUser }) {
   const location = useLocation();
@@ -22,6 +25,9 @@ function AnimatedRoutes({ user, setUser }) {
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/resources" element={<Blog />} />
+        <Route path="/allblogs" element={<AllBlogs />} />
+<Route path="/allblogs/:id" element={<AllBlogDetail />} />
+
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
 
