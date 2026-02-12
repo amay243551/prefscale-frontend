@@ -8,68 +8,87 @@ export default function AllBlogs() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await api.get("/api/blogs?section=allblogs");
-        setBlogs(res.data || []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchBlogs();
   }, []);
 
+  const fetchBlogs = async () => {
+    try {
+      const res = await api.get("/api/blogs?section=allblogs");
+      setBlogs(res.data || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const formatDate = (date) =>
+    new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
   return (
-    <div className="min-h-screen bg-slate-50 p-10">
-      <h1 className="text-4xl font-bold mb-10">All Blogs</h1>
+    <div className="min-h-screen bg-slate-100 py-16 px-8">
+      <div className="max-w-7xl mx-auto">
 
-      {blogs.length === 0 ? (
-        <p>No blogs available.</p>
-      ) : (
-        blogs.map((blog) => (
-          <div
-            key={blog._id}
-            className="bg-white p-6 rounded-xl shadow mb-6"
-          >
-            <h2
-              className="text-2xl font-semibold hover:underline cursor-pointer"
-              onClick={() => navigate(`/allblogs/${blog._id}`)}
-            >
-              {blog.title}
-            </h2>
+        <h1 className="text-4xl font-bold mb-12 text-center">
+          All Blogs
+        </h1>
 
-            <p className="mt-3 text-slate-600">{blog.description}</p>
+        {blogs.length === 0 ? (
+          <p className="text-center text-slate-500">
+            No blogs uploaded yet.
+          </p>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {blogs.map((blog) => (
+              <div
+                key={blog._id}
+                className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+              >
+                <h2
+                  className="text-xl font-semibold cursor-pointer hover:underline"
+                  onClick={() => navigate(`/allblogs/${blog._id}`)}
+                >
+                  {blog.title}
+                </h2>
 
-            <div className="flex justify-between mt-4 text-sm text-slate-500">
-              <span>Uploaded by {blog.uploadedBy}</span>
+                <p className="text-slate-600 mt-3 text-sm">
+                  {blog.description}
+                </p>
 
-              <div className="flex gap-4">
-                <Twitter
-                  size={20}
-                  className="cursor-pointer"
-                  onClick={() =>
-                    window.open(
-                      `https://twitter.com/intent/tweet?url=${window.location.origin}/allblogs/${blog._id}`,
-                      "_blank"
-                    )
-                  }
-                />
-                <Linkedin
-                  size={20}
-                  className="cursor-pointer"
-                  onClick={() =>
-                    window.open(
-                      `https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/allblogs/${blog._id}`,
-                      "_blank"
-                    )
-                  }
-                />
+                <div className="mt-6 text-sm text-slate-500">
+                  <p>By {blog.uploadedBy}</p>
+                  <p>{formatDate(blog.createdAt)}</p>
+                </div>
+
+                <div className="flex gap-4 mt-4">
+                  <Twitter
+                    size={18}
+                    className="cursor-pointer"
+                    onClick={() =>
+                      window.open(
+                        `https://twitter.com/intent/tweet?url=${window.location.origin}/allblogs/${blog._id}`,
+                        "_blank"
+                      )
+                    }
+                  />
+                  <Linkedin
+                    size={18}
+                    className="cursor-pointer"
+                    onClick={() =>
+                      window.open(
+                        `https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/allblogs/${blog._id}`,
+                        "_blank"
+                      )
+                    }
+                  />
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))
-      )}
+        )}
+      </div>
     </div>
   );
 }
