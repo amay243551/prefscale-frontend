@@ -7,23 +7,35 @@ export default function AllBlogDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await api.get(`/api/blog/${id}`);
+        setBlog(res.data);
+      } catch (err) {
+        console.error("Failed to fetch blog:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchBlog();
-  }, []);
+  }, [id]);
 
-  const fetchBlog = async () => {
-    const res = await api.get("/api/blogs?section=allblogs");
-    const found = res.data.find((b) => b._id === id);
-    setBlog(found);
-  };
+  if (loading) {
+    return <div className="p-20 text-center">Loading...</div>;
+  }
 
-  if (!blog) return <div className="p-20 text-center">Loading...</div>;
+  if (!blog) {
+    return <div className="p-20 text-center">Blog not found.</div>;
+  }
 
   return (
     <div className="min-h-screen bg-white">
 
-      {/* HEADER IMAGE SECTION */}
+      {/* HEADER */}
       <div className="relative h-64 bg-slate-200">
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-black/10"></div>
         <div className="absolute bottom-6 left-12 text-white">
@@ -52,7 +64,6 @@ export default function AllBlogDetail() {
           <div className="flex items-center gap-6 text-sm text-slate-500 mt-6">
             <span>By {blog.uploadedBy}</span>
             <span>{new Date(blog.createdAt).toDateString()}</span>
-            <span>5 mins read</span>
           </div>
 
           <div className="flex gap-4 mt-6">
@@ -76,45 +87,12 @@ export default function AllBlogDetail() {
             />
           </div>
 
-          <div className="mt-10 text-lg text-slate-700 leading-8 whitespace-pre-line">
-            {blog.description}
-          </div>
-        </div>
-
-        {/* SIDEBAR */}
-        <div>
-          <h3 className="text-2xl font-bold mb-6">Recent Articles</h3>
-          <SidebarArticles currentId={id} />
+          <div
+            className="mt-10 text-lg text-slate-700 leading-8"
+            dangerouslySetInnerHTML={{ __html: blog.content || blog.description }}
+          />
         </div>
       </div>
-    </div>
-  );
-}
-
-function SidebarArticles({ currentId }) {
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    fetch();
-  }, []);
-
-  const fetch = async () => {
-    const res = await api.get("/api/blogs?section=allblogs");
-    setArticles(res.data.filter((b) => b._id !== currentId).slice(0, 3));
-  };
-
-  return (
-    <div className="space-y-6">
-      {articles.map((article) => (
-        <div key={article._id} className="cursor-pointer">
-          <h4 className="font-semibold hover:text-blue-600">
-            {article.title}
-          </h4>
-          <p className="text-sm text-slate-500">
-            {new Date(article.createdAt).toDateString()}
-          </p>
-        </div>
-      ))}
     </div>
   );
 }
