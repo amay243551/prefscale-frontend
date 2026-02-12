@@ -8,58 +8,68 @@ export default function AllBlogs() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await api.get("/api/blogs?section=allblogs");
+        setBlogs(res.data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     fetchBlogs();
   }, []);
-
-  const fetchBlogs = async () => {
-    const res = await api.get("/api/blogs?section=allblogs");
-    setBlogs(res.data);
-  };
-
-  const shareTwitter = (blog) => {
-    const url = `${window.location.origin}/allblogs/${blog._id}`;
-    window.open(
-      `https://twitter.com/intent/tweet?url=${url}&text=${blog.title}`,
-      "_blank"
-    );
-  };
-
-  const shareLinkedIn = (blog) => {
-    const url = `${window.location.origin}/allblogs/${blog._id}`;
-    window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
-      "_blank"
-    );
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 p-10">
       <h1 className="text-4xl font-bold mb-10">All Blogs</h1>
 
-      {blogs.map((blog) => (
-        <div
-          key={blog._id}
-          className="bg-white p-6 rounded-xl shadow mb-6 cursor-pointer"
-        >
-          <h2
-            className="text-2xl font-semibold hover:underline"
-            onClick={() => navigate(`/allblogs/${blog._id}`)}
+      {blogs.length === 0 ? (
+        <p>No blogs available.</p>
+      ) : (
+        blogs.map((blog) => (
+          <div
+            key={blog._id}
+            className="bg-white p-6 rounded-xl shadow mb-6"
           >
-            {blog.title}
-          </h2>
+            <h2
+              className="text-2xl font-semibold hover:underline cursor-pointer"
+              onClick={() => navigate(`/allblogs/${blog._id}`)}
+            >
+              {blog.title}
+            </h2>
 
-          <p className="mt-3 text-slate-600">{blog.description}</p>
+            <p className="mt-3 text-slate-600">{blog.description}</p>
 
-          <div className="flex justify-between mt-4 text-sm text-slate-500">
-            <span>Uploaded by {blog.uploadedBy}</span>
+            <div className="flex justify-between mt-4 text-sm text-slate-500">
+              <span>Uploaded by {blog.uploadedBy}</span>
 
-            <div className="flex gap-4">
-              <Twitter size={20} onClick={() => shareTwitter(blog)} />
-              <Linkedin size={20} onClick={() => shareLinkedIn(blog)} />
+              <div className="flex gap-4">
+                <Twitter
+                  size={20}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    window.open(
+                      `https://twitter.com/intent/tweet?url=${window.location.origin}/allblogs/${blog._id}`,
+                      "_blank"
+                    )
+                  }
+                />
+                <Linkedin
+                  size={20}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    window.open(
+                      `https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/allblogs/${blog._id}`,
+                      "_blank"
+                    )
+                  }
+                />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }
