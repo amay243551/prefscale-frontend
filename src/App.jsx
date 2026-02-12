@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Blog from "./pages/Blog";
+import Resources  from "./pages/Resources";
 import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -24,7 +24,7 @@ function AnimatedRoutes({ user, setUser }) {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/resources" element={<Blog />} />
+        <Route path="/resources" element={<Resources  />} />
         <Route path="/allblogs" element={<AllBlogs />} />
 <Route path="/allblogs/:id" element={<AllBlogDetail />} />
 
