@@ -26,8 +26,7 @@ function AnimatedRoutes({ user, setUser }) {
         <Route path="/services" element={<Services />} />
         <Route path="/resources" element={<Resources  />} />
         <Route path="/allblogs" element={<AllBlogs />} />
-<Route path="/allblogs/:id" element={<AllBlogDetail />} />
-
+        <Route path="/allblogs/:id" element={<AllBlogDetail />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
 
