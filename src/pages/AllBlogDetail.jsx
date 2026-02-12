@@ -20,7 +20,7 @@ export default function AllBlogDetail() {
         const recentRes = await api.get("/api/blogs?section=allblogs");
         setRecent(recentRes.data);
       } catch (err) {
-        console.error("Error loading blog:", err);
+        console.error("Error fetching blog:", err);
       } finally {
         setLoading(false);
       }
