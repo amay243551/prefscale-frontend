@@ -7,14 +7,14 @@ export default function AllBlogDetail() {
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
-    fetchBlog();
-  }, []);
+    const fetchBlog = async () => {
+      const res = await api.get("/api/blogs?section=allblogs");
+      const found = res.data.find((b) => b._id === id);
+      setBlog(found);
+    };
 
-  const fetchBlog = async () => {
-    const res = await api.get("/api/blogs?section=allblogs");
-    const found = res.data.find((b) => b._id === id);
-    setBlog(found);
-  };
+    fetchBlog();
+  }, [id]);
 
   if (!blog) return <div className="p-10">Loading...</div>;
 
