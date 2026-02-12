@@ -4,14 +4,13 @@ import api from "../utils/api";
 import { Eye, Download, Trash2, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 
-/* ================= PAGE ANIMATION ================= */
 const pageVariant = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -30 },
 };
 
-export default function Blog() {
+export default function Resources() {
   const [activeTab, setActiveTab] = useState("foundations");
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +19,6 @@ export default function Blog() {
   const role = localStorage.getItem("role");
   const token = localStorage.getItem("token");
 
-  /* ================= AUTH CHECK ================= */
   const ensureLogin = () => {
     if (!token) {
       alert("Please login or signup to continue.");
@@ -30,7 +28,6 @@ export default function Blog() {
     return true;
   };
 
-  /* ================= DATE FORMAT ================= */
   const formatDate = (date) =>
     new Date(date).toLocaleDateString("en-IN", {
       day: "2-digit",
@@ -38,7 +35,6 @@ export default function Blog() {
       year: "numeric",
     });
 
-  /* ================= VIEW ================= */
   const handleView = (fileUrl) => {
     if (!ensureLogin()) return;
 
@@ -49,14 +45,12 @@ export default function Blog() {
     window.open(viewerUrl, "_blank");
   };
 
-  /* ================= DOWNLOAD ================= */
   const handleDownload = async (fileUrl, title) => {
     if (!ensureLogin()) return;
 
     try {
       const res = await fetch(fileUrl);
       const blob = await res.blob();
-
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
 
@@ -67,35 +61,33 @@ export default function Blog() {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error("Download failed", err);
-      alert("Failed to download file");
+    } catch {
+      alert("Download failed");
     }
   };
 
-  /* ================= DELETE (ADMIN) ================= */
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this resource permanently?")) return;
 
     try {
       await api.delete(`/api/admin/blog/${id}`);
       setBlogs((prev) => prev.filter((b) => b._id !== id));
-      alert("Resource deleted successfully ✅");
-    } catch (err) {
-      console.error("Delete failed", err);
-      alert("Failed to delete resource ❌");
+      alert("Deleted successfully ✅");
+    } catch {
+      alert("Delete failed ❌");
     }
   };
 
-  /* ================= FETCH ================= */
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/api/blogs?category=${activeTab}`);
-        setBlogs(res.data);
+        const res = await api.get(
+          `/api/blogs?section=resources&category=${activeTab}`
+        );
+        setBlogs(res.data || []);
       } catch (err) {
-        console.error("Fetch failed", err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -104,11 +96,10 @@ export default function Blog() {
     fetchBlogs();
   }, [activeTab]);
 
-  /* ================= LOADING ================= */
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-slate-400 text-lg">
-        Loading resources…
+      <div className="min-h-screen flex items-center justify-center text-slate-400">
+        Loading resources...
       </div>
     );
   }
@@ -124,159 +115,92 @@ export default function Blog() {
     >
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* ================= HEADER ================= */}
-        <div className="text-center mb-20">
-          <h1 className="text-5xl font-extrabold text-white tracking-tight">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-extrabold text-white">
             Performance Engineering Library
           </h1>
-          <p className="mt-4 text-slate-400 max-w-2xl mx-auto">
-            Curated resources on scalability, performance testing,
-            and real-world production engineering.
-          </p>
         </div>
 
-        {/* ================= TABS ================= */}
-        <div className="flex justify-center gap-4 mb-14">
-          <TabButton
-            active={activeTab === "foundations"}
+        <div className="flex justify-center gap-4 mb-10">
+          <button
             onClick={() => setActiveTab("foundations")}
+            className="px-6 py-2 bg-blue-600 text-white rounded"
           >
             Foundations
-          </TabButton>
-
-          <TabButton
-            active={activeTab === "deep"}
+          </button>
+          <button
             onClick={() => setActiveTab("deep")}
+            className="px-6 py-2 bg-blue-600 text-white rounded"
           >
             Deep Dive
-          </TabButton>
+          </button>
         </div>
 
-        {/* ================= ADMIN CTA ================= */}
         {role === "admin" && (
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex justify-center mb-14"
-          >
+          <div className="flex justify-center mb-10">
             <button
               onClick={() => navigate("/upload-blog")}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-lg transition"
+              className="bg-blue-600 text-white px-6 py-3 rounded flex items-center gap-2"
             >
-              <Plus size={18} /> Upload New Resource
+              <Plus size={18} /> Upload Resource
             </button>
-          </motion.div>
+          </div>
         )}
 
-        {/* ================= BLOG GRID ================= */}
         {blogs.length === 0 ? (
           <p className="text-center text-slate-400">
-            No resources available in this category.
+            No resources available.
           </p>
         ) : (
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
             {blogs.map((blog) => (
-              <motion.div
+              <div
                 key={blog._id}
-                whileHover={{ scale: 1.03, y: -6 }}
-                transition={{ type: "spring", stiffness: 200 }}
-                className="group relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-7 hover:border-blue-500/40"
+                className="bg-white/5 border border-white/10 rounded-2xl p-6"
               >
-                {/* DATE */}
-                <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition">
-                  <span className="text-xs bg-black/70 text-white px-3 py-1 rounded-full">
-                    {formatDate(blog.createdAt)}
-                  </span>
-                </div>
-
-                {/* CATEGORY */}
-                <span className="inline-block mb-4 text-xs uppercase tracking-wide bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full">
+                <span className="text-xs text-blue-400 uppercase">
                   {blog.category}
                 </span>
 
-                {/* TITLE */}
-                <h2 className="text-xl font-bold text-white mb-3">
+                <h2 className="text-xl font-bold text-white mt-2">
                   {blog.title}
                 </h2>
 
-                {/* DESCRIPTION */}
-                <p className="text-slate-400 text-sm leading-relaxed mb-8">
+                <p className="text-slate-400 text-sm mt-3">
                   {blog.description}
                 </p>
 
-                {/* ACTIONS */}
-                <div className="flex gap-3 flex-wrap">
-                  <ActionBtn
-                    icon={<Eye size={16} />}
-                    label="View"
+                <div className="mt-6 flex gap-3 flex-wrap">
+                  <button
                     onClick={() => handleView(blog.fileUrl)}
-                  />
+                    className="bg-white/10 text-white px-4 py-2 rounded"
+                  >
+                    View
+                  </button>
 
-                  <ActionBtn
-                    icon={<Download size={16} />}
-                    label="Download"
-                    primary
+                  <button
                     onClick={() =>
                       handleDownload(blog.fileUrl, blog.title)
                     }
-                  />
+                    className="bg-blue-600 text-white px-4 py-2 rounded"
+                  >
+                    Download
+                  </button>
 
                   {role === "admin" && (
-                    <ActionBtn
-                      icon={<Trash2 size={16} />}
-                      label="Delete"
-                      danger
+                    <button
                       onClick={() => handleDelete(blog._id)}
-                    />
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                    >
+                      Delete
+                    </button>
                   )}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
       </div>
     </motion.div>
-  );
-}
-
-/* ================= UI COMPONENTS ================= */
-
-function TabButton({ children, active, onClick }) {
-  return (
-    <motion.button
-      whileHover={{ scale: 1.05 }}
-      onClick={onClick}
-      className={`px-7 py-3 rounded-full text-sm font-semibold transition
-        ${
-          active
-            ? "bg-blue-600 text-white shadow-lg"
-            : "bg-white/5 text-slate-300 hover:bg-white/10"
-        }`}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-function ActionBtn({ icon, label, onClick, primary, danger }) {
-  let base =
-    "flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition";
-
-  if (primary) {
-    base += " bg-blue-600 hover:bg-blue-700 text-white";
-  } else if (danger) {
-    base += " bg-red-500/20 hover:bg-red-500/30 text-red-400";
-  } else {
-    base += " bg-white/5 hover:bg-white/10 text-slate-300";
-  }
-
-  return (
-    <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      onClick={onClick}
-      className={base}
-    >
-      {icon} {label}
-    </motion.button>
   );
 }
