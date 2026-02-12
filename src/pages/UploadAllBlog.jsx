@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
@@ -6,21 +6,24 @@ import api from "../utils/api";
 
 export default function UploadAllBlog() {
   const navigate = useNavigate();
+  const quillRef = useRef(null);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 🔥 Custom Image Upload Handler
+  // ✅ Safe Image Upload
   const handleImageUpload = () => {
     const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
+    input.type = "file";
+    input.accept = "image/*";
     input.click();
 
     input.onchange = async () => {
       const file = input.files[0];
+      if (!file) return;
+
       const formData = new FormData();
       formData.append("image", file);
 
@@ -32,10 +35,11 @@ export default function UploadAllBlog() {
 
         const imageUrl = res.data.url;
 
-        const quill = window.quillRef.getEditor();
-        const range = quill.getSelection();
-        quill.insertEmbed(range.index, "image", imageUrl);
+        const editor = quillRef.current.getEditor();
+        const range = editor.getSelection(true);
+        editor.insertEmbed(range.index, "image", imageUrl);
       } catch (err) {
+        console.error(err);
         alert("Image upload failed");
       }
     };
@@ -76,6 +80,7 @@ export default function UploadAllBlog() {
       alert("Blog uploaded successfully 🚀");
       navigate("/allblogs");
     } catch (err) {
+      console.error(err);
       alert("Upload failed");
     } finally {
       setLoading(false);
@@ -92,7 +97,6 @@ export default function UploadAllBlog() {
 
         <form onSubmit={handleSubmit}>
 
-          {/* TITLE */}
           <div className="mb-6">
             <label className="block mb-2 text-sm">Title</label>
             <input
@@ -104,7 +108,6 @@ export default function UploadAllBlog() {
             />
           </div>
 
-          {/* DESCRIPTION */}
           <div className="mb-6">
             <label className="block mb-2 text-sm">Short Description</label>
             <input
@@ -116,7 +119,6 @@ export default function UploadAllBlog() {
             />
           </div>
 
-          {/* RICH TEXT EDITOR */}
           <div className="mb-8">
             <label className="block mb-2 text-sm">Blog Content</label>
             <ReactQuill
@@ -124,13 +126,12 @@ export default function UploadAllBlog() {
               value={content}
               onChange={setContent}
               modules={modules}
-              ref={(el) => (window.quillRef = el)}
+              ref={quillRef}
               className="bg-white text-black rounded-lg"
               style={{ height: "400px", marginBottom: "50px" }}
             />
           </div>
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
