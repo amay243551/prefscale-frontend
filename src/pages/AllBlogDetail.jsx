@@ -49,7 +49,7 @@ export default function AllBlogDetail() {
     <div className="min-h-screen bg-white">
 
       {/* HERO SECTION */}
-      <div className="bg-gradient-to-r from-slate-900 to-black text-white py-16 px-10">
+      <div className="bg-gradient-to-r from-slate-900 to-black text-white py-16 px-6">
         <button
           onClick={() => navigate("/allblogs")}
           className="flex items-center gap-2 text-sm mb-6 opacity-80 hover:opacity-100"
@@ -57,11 +57,11 @@ export default function AllBlogDetail() {
           <ArrowLeft size={16} /> Back to Blogs
         </button>
 
-        <h1 className="text-4xl md:text-5xl font-bold max-w-4xl">
+        <h1 className="text-4xl md:text-5xl font-bold max-w-4xl leading-tight">
           {blog.title}
         </h1>
 
-        <div className="flex gap-6 mt-6 text-sm opacity-80">
+        <div className="flex gap-6 mt-6 text-sm opacity-80 flex-wrap">
           <span>By {blog.uploadedBy}</span>
           <span>{new Date(blog.createdAt).toDateString()}</span>
         </div>
@@ -89,11 +89,11 @@ export default function AllBlogDetail() {
         </div>
       </div>
 
-      {/* MAIN CONTENT */}
-      <div className="max-w-7xl mx-auto px-10 py-16 grid lg:grid-cols-3 gap-16">
+      {/* MAIN CONTENT AREA */}
+      <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row gap-16">
 
-        {/* ARTICLE */}
-        <div className="lg:col-span-2">
+        {/* ARTICLE LEFT SIDE */}
+        <div className="w-full lg:w-2/3 overflow-hidden">
 
           {blog.description && (
             <p className="text-lg text-slate-600 mb-10">
@@ -102,15 +102,18 @@ export default function AllBlogDetail() {
           )}
 
           <div
-            className="prose max-w-none"
+            className="prose prose-lg max-w-none break-words overflow-hidden
+                       prose-img:rounded-xl prose-img:shadow-lg
+                       prose-headings:font-bold"
+            style={{ wordBreak: "break-word" }}
             dangerouslySetInnerHTML={{
               __html: blog.content || "<p>No content available.</p>",
             }}
           />
         </div>
 
-        {/* SIDEBAR */}
-        <div>
+        {/* SIDEBAR RIGHT SIDE */}
+        <div className="w-full lg:w-1/3 sticky top-24 h-fit">
           <h3 className="text-2xl font-bold mb-6">
             Recent Articles
           </h3>
@@ -123,7 +126,7 @@ export default function AllBlogDetail() {
                 <div
                   key={article._id}
                   onClick={() => navigate(`/allblogs/${article._id}`)}
-                  className="cursor-pointer border-b pb-4 hover:text-blue-600"
+                  className="cursor-pointer border-b pb-4 hover:text-blue-600 transition"
                 >
                   <h4 className="font-semibold">
                     {article.title}
