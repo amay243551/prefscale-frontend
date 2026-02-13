@@ -43,11 +43,10 @@
 
 .ql-container {
   min-height: 300px;
-  max-height: 500px;
-  overflow-y: auto;
 }
 
 .ql-editor {
   min-height: 300px;
 }
+
 
