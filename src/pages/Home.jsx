@@ -101,7 +101,6 @@ export default function Home() {
       {/* INDUSTRY */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-8">
-
           <p className="text-center text-lg text-slate-600 mb-6">
             Helping organizations achieve performance excellence through scalable and reliable testing solutions.
           </p>
@@ -111,45 +110,37 @@ export default function Home() {
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-
-            <IndustryCard
-              icon={<Landmark size={40} />}
-              title="Banking Application Performance Testing"
-              desc="Load & stress testing using LoadRunner and Dynatrace."
-            />
-
-            <IndustryCard
-              icon={<ShoppingCart size={40} />}
-              title="E-Commerce Platform"
-              desc="50K+ concurrent users performance simulation."
-            />
-
-            <IndustryCard
-              icon={<CreditCard size={40} />}
-              title="FinTech Platform"
-              desc="Continuous monitoring with Grafana dashboards."
-            />
-
-            <IndustryCard
-              icon={<HeartPulse size={40} />}
-              title="Healthcare Portal"
-              desc="CI/CD performance gates and optimization."
-            />
-
+            <IndustryCard icon={<Landmark size={40} />} title="Banking Application" desc="Load & stress testing using LoadRunner and Dynatrace." />
+            <IndustryCard icon={<ShoppingCart size={40} />} title="E-Commerce Platform" desc="50K+ concurrent users performance simulation." />
+            <IndustryCard icon={<CreditCard size={40} />} title="FinTech Platform" desc="Continuous monitoring with Grafana dashboards." />
+            <IndustryCard icon={<HeartPulse size={40} />} title="Healthcare Portal" desc="CI/CD performance gates and optimization." />
           </div>
         </div>
       </section>
 
-      {/* PERFORMANCE TOOLS */}
+      {/* PERFORMANCE ENGINEERING SECTION */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-8">
+
           <h2 className="text-3xl font-bold text-center text-slate-900">
             Performance Engineering Excellence
           </h2>
 
           <p className="text-center mt-6 text-slate-600 max-w-3xl mx-auto">
-            Powered by industry-leading tools and engineering expertise.
+            Powered by industry-leading tools and engineering expertise, we deliver data-driven performance
+            optimization that ensures reliability and business continuity.
           </p>
+
+          <div className="mt-16 space-y-16">
+
+            <ToolItem image="/assets/jmeter logo.png" title="Apache JMeter" link="/tools/jmeter" />
+            <ToolItem image="/assets/loadrunner logo.jfif" title="OpenText LoadRunner" link="/tools/loadrunner" />
+            <ToolItem image="/assets/neoload logo.png" title="NeoLoad" link="/tools/neoload" />
+            <ToolItem image="/assets/locust logo.jfif" title="Locust" link="/tools/locust" />
+            <ToolItem image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
+
+          </div>
+
         </div>
       </section>
 
@@ -171,6 +162,8 @@ export default function Home() {
   );
 }
 
+/* COMPONENTS */
+
 function Metric({ icon, value, label }) {
   return (
     <div>
@@ -184,11 +177,32 @@ function Metric({ icon, value, label }) {
 function IndustryCard({ icon, title, desc }) {
   return (
     <div className="text-center px-4">
-      <div className="flex justify-center text-green-700 mb-4">
-        {icon}
-      </div>
+      <div className="flex justify-center text-green-700 mb-4">{icon}</div>
       <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
       <p className="mt-3 text-slate-600 text-sm">{desc}</p>
+    </div>
+  );
+}
+
+function ToolItem({ image, title, link }) {
+  const navigate = useNavigate();
+
+  return (
+    <div className="flex flex-col md:flex-row items-center gap-10">
+      <div className="md:w-1/3 flex justify-center">
+        <img src={image} alt={title} className="w-48 object-contain" />
+      </div>
+
+      <div className="md:w-2/3">
+        <h3 className="text-2xl font-semibold text-slate-900">{title}</h3>
+
+        <button
+          onClick={() => navigate(link)}
+          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+        >
+          Learn more
+        </button>
+      </div>
     </div>
   );
 }
