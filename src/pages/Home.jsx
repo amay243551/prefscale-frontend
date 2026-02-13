@@ -113,6 +113,54 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ================= PERFORMANCE TOOLS ================= */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-8">
+          <h2 className="text-3xl font-bold text-slate-900 text-center">
+            Performance Engineering Excellence
+          </h2>
+
+          <div className="mt-16 space-y-16">
+
+            <ToolItem
+              image="/assets/jmeter logo.png"
+              title="Apache JMeter"
+              desc="Open-source performance testing tool for scalable and reliable load testing."
+              link="/tools/jmeter"
+            />
+
+            <ToolItem
+              image="/assets/loadrunner logo.jfif"
+              title="OpenText LoadRunner"
+              desc="Enterprise-grade performance testing solution for large-scale systems."
+              link="/tools/loadrunner"
+            />
+
+            <ToolItem
+              image="/assets/neoload logo.png"
+              title="NeoLoad"
+              desc="Modern load testing tool for continuous performance validation."
+              link="/tools/neoload"
+            />
+
+            <ToolItem
+              image="/assets/locust logo.jfif"
+              title="Locust"
+              desc="Python-based scalable performance testing for real-world simulations."
+              link="/tools/locust"
+            />
+
+            <ToolItem
+              image="/assets/dynatrace.jpeg"
+              title="Dynatrace"
+              desc="AI-powered monitoring and observability platform for deep performance insights."
+              link="/tools/dynatrace"
+            />
+
+          </div>
+        </div>
+      </section>
+
       {/* ================= FINAL CTA ================= */}
       <section className="py-14 bg-gradient-to-r from-slate-800 to-slate-900 text-center text-white">
         <h2 className="text-3xl font-bold">Performance Is a Feature</h2>
@@ -151,6 +199,35 @@ function Stat({ icon, value, label }) {
       <div className="flex justify-center text-slate-700 mb-3">{icon}</div>
       <div className="text-3xl font-bold text-slate-900">{value}</div>
       <p className="mt-1 text-sm text-slate-600">{label}</p>
+    </motion.div>
+  );
+}
+
+function ToolItem({ image, title, desc, link }) {
+  const navigate = useNavigate();
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      className="flex flex-col md:flex-row items-center gap-10 bg-white p-8 rounded-xl shadow-lg"
+    >
+      <img
+        src={image}
+        alt={title}
+        className="w-48 object-contain"
+      />
+
+      <div className="flex-1">
+        <h3 className="text-2xl font-semibold text-slate-900">{title}</h3>
+        <p className="mt-3 text-slate-600">{desc}</p>
+
+        <button
+          onClick={() => navigate(link)}
+          className="mt-5 bg-slate-900 text-white px-6 py-2 rounded-md hover:bg-slate-700 transition"
+        >
+          Learn More
+        </button>
+      </div>
     </motion.div>
   );
 }
