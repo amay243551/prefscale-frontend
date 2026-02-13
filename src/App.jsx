@@ -9,7 +9,7 @@ import Resources  from "./pages/Resources";
 import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Uploadresources from "./pages/Uploadresources";
+import UploadResources from "./pages/UploadResources";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AllBlogs from "./pages/AllBlogs";
 import AllBlogDetail from "./pages/AllBlogDetail";
@@ -44,7 +44,7 @@ function AnimatedRoutes({ user, setUser }) {
           path="/upload-resources"
           element={
             <ProtectedRoute>
-              <Uploadresources />
+              <UploadResources />
             </ProtectedRoute>
           }
         />
