@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
-import { Eye, Download, Trash2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { motion } from "framer-motion";
-
-const pageVariant = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -30 },
-};
 
 export default function Resources() {
   const [activeTab, setActiveTab] = useState("foundations");
@@ -17,66 +11,6 @@ export default function Resources() {
 
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
-  const token = localStorage.getItem("token");
-
-  const ensureLogin = () => {
-    if (!token) {
-      alert("Please login or signup to continue.");
-      navigate("/login");
-      return false;
-    }
-    return true;
-  };
-
-  const formatDate = (date) =>
-    new Date(date).toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-
-  const handleView = (fileUrl) => {
-    if (!ensureLogin()) return;
-
-    const viewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
-      fileUrl
-    )}&embedded=true`;
-
-    window.open(viewerUrl, "_blank");
-  };
-
-  const handleDownload = async (fileUrl, title) => {
-    if (!ensureLogin()) return;
-
-    try {
-      const res = await fetch(fileUrl);
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-
-      link.href = url;
-      link.download = `${title.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`;
-
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch {
-      alert("Download failed");
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this resource permanently?")) return;
-
-    try {
-      await api.delete(`/api/admin/blog/${id}`);
-      setBlogs((prev) => prev.filter((b) => b._id !== id));
-      alert("Deleted successfully ✅");
-    } catch {
-      alert("Delete failed ❌");
-    }
-  };
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -96,41 +30,36 @@ export default function Resources() {
     fetchBlogs();
   }, [activeTab]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-slate-400">
-        Loading resources...
-      </div>
-    );
-  }
-
   return (
     <motion.div
-      variants={pageVariant}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      transition={{ duration: 0.5 }}
       className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#020617] to-black py-20"
     >
       <div className="max-w-7xl mx-auto px-6">
 
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-extrabold text-white">
-            Performance Engineering Library
-          </h1>
-        </div>
+        <h1 className="text-5xl font-extrabold text-white text-center mb-12">
+          📚 Resource Library
+        </h1>
 
-        <div className="flex justify-center gap-4 mb-10">
+        {/* Tabs */}
+        <div className="flex justify-center gap-6 mb-12">
           <button
             onClick={() => setActiveTab("foundations")}
-            className="px-6 py-2 bg-blue-600 text-white rounded"
+            className={`px-6 py-2 rounded ${
+              activeTab === "foundations"
+                ? "bg-blue-600 text-white"
+                : "bg-white/10 text-white"
+            }`}
           >
             Foundations
           </button>
+
           <button
-            onClick={() => setActiveTab("deep")}
-            className="px-6 py-2 bg-blue-600 text-white rounded"
+            onClick={() => setActiveTab("deepdive")}
+            className={`px-6 py-2 rounded ${
+              activeTab === "deepdive"
+                ? "bg-blue-600 text-white"
+                : "bg-white/10 text-white"
+            }`}
           >
             Deep Dive
           </button>
@@ -142,12 +71,14 @@ export default function Resources() {
               onClick={() => navigate("/upload-resources")}
               className="bg-blue-600 text-white px-6 py-3 rounded flex items-center gap-2"
             >
-              <Plus size={18} /> + Upload Resource
+              <Plus size={18} /> Upload Resource
             </button>
           </div>
         )}
 
-        {blogs.length === 0 ? (
+        {loading ? (
+          <p className="text-center text-slate-400">Loading...</p>
+        ) : blogs.length === 0 ? (
           <p className="text-center text-slate-400">
             No resources available.
           </p>
@@ -170,31 +101,15 @@ export default function Resources() {
                   {blog.description}
                 </p>
 
-                <div className="mt-6 flex gap-3 flex-wrap">
-                  <button
-                    onClick={() => handleView(blog.fileUrl)}
-                    className="bg-white/10 text-white px-4 py-2 rounded"
-                  >
-                    View
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      handleDownload(blog.fileUrl, blog.title)
-                    }
+                <div className="mt-6">
+                  <a
+                    href={blog.fileUrl}
+                    target="_blank"
+                    rel="noreferrer"
                     className="bg-blue-600 text-white px-4 py-2 rounded"
                   >
-                    Download
-                  </button>
-
-                  {role === "admin" && (
-                    <button
-                      onClick={() => handleDelete(blog._id)}
-                      className="bg-red-500 text-white px-4 py-2 rounded"
-                    >
-                      Delete
-                    </button>
-                  )}
+                    View PDF
+                  </a>
                 </div>
               </div>
             ))}
