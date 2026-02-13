@@ -101,6 +101,7 @@ export default function Home() {
       {/* INDUSTRY */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-8">
+
           <p className="text-center text-lg text-slate-600 mb-6">
             Helping organizations achieve performance excellence through scalable and reliable testing solutions.
           </p>
@@ -110,20 +111,42 @@ export default function Home() {
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-            <IndustryCard icon={<Landmark size={40} />} title="Banking Application" desc="Load & stress testing using LoadRunner and Dynatrace." />
-            <IndustryCard icon={<ShoppingCart size={40} />} title="E-Commerce Platform" desc="50K+ concurrent users performance simulation." />
-            <IndustryCard icon={<CreditCard size={40} />} title="FinTech Platform" desc="Continuous monitoring with Grafana dashboards." />
-            <IndustryCard icon={<HeartPulse size={40} />} title="Healthcare Portal" desc="CI/CD performance gates and optimization." />
+
             <IndustryCard
-    icon={<BarChart3 size={40} />}
-    title="Telecom Application"
-    desc="Engineered performance optimization for live class streaming through scalability testing and database tuning, ensuring consistent and reliable learning experiences at scale."
-  />
+              icon={<Landmark size={40} />}
+              title="Banking Application"
+              desc="Load & stress testing using LoadRunner and Dynatrace."
+            />
+
+            <IndustryCard
+              icon={<ShoppingCart size={40} />}
+              title="E-Commerce Platform"
+              desc="50K+ concurrent users performance simulation."
+            />
+
+            <IndustryCard
+              icon={<CreditCard size={40} />}
+              title="FinTech Platform"
+              desc="Continuous monitoring with Grafana dashboards."
+            />
+
+            <IndustryCard
+              icon={<HeartPulse size={40} />}
+              title="Healthcare Portal"
+              desc="CI/CD performance gates and optimization."
+            />
+
+            <IndustryCard
+              icon={<BarChart3 size={40} />}
+              title="Telecom Application"
+              desc="Engineered performance optimization for live class streaming through scalability testing and database tuning, ensuring consistent and reliable learning experiences at scale."
+            />
+
           </div>
         </div>
       </section>
 
-      {/* PERFORMANCE ENGINEERING SECTION */}
+      {/* PERFORMANCE ENGINEERING */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-8">
 
@@ -145,7 +168,6 @@ export default function Home() {
             <ToolItem image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
 
           </div>
-
         </div>
       </section>
 
