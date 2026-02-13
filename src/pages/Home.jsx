@@ -22,13 +22,12 @@ export default function Home() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  /* ================= CTA HANDLERS ================= */
   const handleStartTesting = () => {
-    token ? navigate("/blog") : navigate("/signup");
+    token ? navigate("/allblogs") : navigate("/signup");
   };
 
   const handleLearnPerformance = () => {
-    navigate("/blog");
+    navigate("/allblogs");
   };
 
   const handleGetStartedFree = () => {
@@ -45,24 +44,27 @@ export default function Home() {
       className="bg-white"
     >
       {/* ================= HERO ================= */}
-      <section className="relative h-[90vh] overflow-hidden bg-black">
-        <img
-          src="https://images.unsplash.com/photo-1518770660439-4636190af475"
-          alt="Technology background"
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
+      <section className="relative h-[90vh] overflow-hidden bg-gradient-to-r from-green-600 to-emerald-500">
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-8 h-full flex items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-8 h-full flex items-center justify-between">
+          
+          {/* LEFT CONTENT */}
           <div className="max-w-2xl text-white">
-            <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-              Performance Testing <br />
-              <span className="text-slate-300">Built for Scale</span>
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+              Engineered for Enterprise Performance and Reliability
             </h1>
 
-            <p className="mt-6 text-lg text-slate-300">
-              PREFSCALE helps engineering teams validate system performance
-              under real-world load — before users experience failures.
+            <p className="mt-6 text-lg text-green-100">
+              Simulate real-world traffic, uncover performance risks, and ensure
+              your applications deliver consistent, high-quality experiences —
+              regardless of scale or complexity.
+            </p>
+
+            <p className="mt-6 text-xl font-semibold text-white">
+              Prevent failures. Deliver excellence. Scale without limits.
             </p>
 
             <div className="mt-10 flex gap-4">
@@ -70,7 +72,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleStartTesting}
-                className="bg-white text-slate-900 px-6 py-3 rounded-md font-semibold"
+                className="bg-white text-green-700 px-6 py-3 rounded-md font-semibold"
               >
                 Start Testing
               </motion.button>
@@ -84,6 +86,16 @@ export default function Home() {
               </motion.button>
             </div>
           </div>
+
+          {/* RIGHT LOGO */}
+          <div className="hidden md:flex items-center justify-center">
+            <img
+              src="/assets/ivavsys-logo.png"
+              alt="IVAVSYS Logo"
+              className="w-64 object-contain drop-shadow-xl"
+            />
+          </div>
+
         </div>
       </section>
 
@@ -153,7 +165,7 @@ export default function Home() {
             <ToolItem
               image="/assets/dynatrace.jpeg"
               title="Dynatrace"
-              desc="AI-powered monitoring and observability platform for deep performance insights."
+              desc="AI-powered monitoring and observability platform."
               link="/tools/dynatrace"
             />
 
@@ -162,13 +174,15 @@ export default function Home() {
       </section>
 
       {/* ================= FINAL CTA ================= */}
-      <section className="py-14 bg-gradient-to-r from-slate-800 to-slate-900 text-center text-white">
-        <h2 className="text-3xl font-bold">Performance Is a Feature</h2>
+      <section className="py-14 bg-gradient-to-r from-green-700 to-emerald-600 text-center text-white">
+        <h2 className="text-3xl font-bold">
+          Performance Is a Feature
+        </h2>
 
         <motion.button
           whileHover={{ scale: 1.05 }}
           onClick={handleGetStartedFree}
-          className="mt-6 bg-white text-slate-900 px-8 py-3 rounded-md font-semibold"
+          className="mt-6 bg-white text-green-700 px-8 py-3 rounded-md font-semibold"
         >
           Get Started Free
         </motion.button>
@@ -223,7 +237,7 @@ function ToolItem({ image, title, desc, link }) {
 
         <button
           onClick={() => navigate(link)}
-          className="mt-5 bg-slate-900 text-white px-6 py-2 rounded-md hover:bg-slate-700 transition"
+          className="mt-5 bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-800 transition"
         >
           Learn More
         </button>
