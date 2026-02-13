@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Resources from "./pages/Resources";
-import Services from "./pages/Services";
+import Services from "./pages/Capabilities";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import UploadResources from "./pages/UploadResources";
@@ -32,7 +32,7 @@ function AnimatedRoutes({ user, setUser }) {
         {/* ===== Main Pages ===== */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
+        <Route path="/capabilities" element={<Capabilities />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/allblogs" element={<AllBlogs />} />
         <Route path="/allblogs/:id" element={<AllBlogDetail />} />
