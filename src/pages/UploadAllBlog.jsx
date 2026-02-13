@@ -11,9 +11,12 @@ export default function UploadAllBlog() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Safe Image Upload
+  /* ================= IMAGE UPLOAD FOR EDITOR ================= */
+
   const handleImageUpload = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -45,6 +48,30 @@ export default function UploadAllBlog() {
     };
   };
 
+  /* ================= THUMBNAIL UPLOAD ================= */
+
+  const handleThumbnailUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const res = await api.post(
+        "/api/admin/upload-image",
+        formData
+      );
+
+      setThumbnail(res.data.url);
+      setThumbnailPreview(res.data.url);
+    } catch (err) {
+      alert("Thumbnail upload failed");
+    }
+  };
+
+  /* ================= QUILL MODULES ================= */
+
   const modules = {
     toolbar: {
       container: [
@@ -59,6 +86,8 @@ export default function UploadAllBlog() {
       },
     },
   };
+
+  /* ================= SUBMIT ================= */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,6 +104,7 @@ export default function UploadAllBlog() {
         title,
         description,
         content,
+        thumbnail,
       });
 
       alert("Blog uploaded successfully 🚀");
@@ -88,15 +118,16 @@ export default function UploadAllBlog() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-black text-white py-16 px-6">
-      <div className="max-w-5xl mx-auto bg-white/5 backdrop-blur-xl p-10 rounded-3xl border border-white/10">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-900 text-white py-16 px-6">
+      <div className="max-w-5xl mx-auto bg-white/5 backdrop-blur-xl p-10 rounded-3xl border border-white/10 shadow-2xl">
 
-        <h2 className="text-4xl font-bold mb-8 text-center">
-          Create New Blog
+        <h2 className="text-4xl font-bold mb-10 text-center">
+          🚀 Create New Blog
         </h2>
 
         <form onSubmit={handleSubmit}>
 
+          {/* TITLE */}
           <div className="mb-6">
             <label className="block mb-2 text-sm">Title</label>
             <input
@@ -108,6 +139,7 @@ export default function UploadAllBlog() {
             />
           </div>
 
+          {/* DESCRIPTION */}
           <div className="mb-6">
             <label className="block mb-2 text-sm">Short Description</label>
             <input
@@ -119,7 +151,27 @@ export default function UploadAllBlog() {
             />
           </div>
 
-          <div className="mb-8">
+          {/* THUMBNAIL */}
+          <div className="mb-6">
+            <label className="block mb-2 text-sm">Blog Thumbnail</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleThumbnailUpload}
+              className="text-sm"
+            />
+
+            {thumbnailPreview && (
+              <img
+                src={thumbnailPreview}
+                alt="Thumbnail Preview"
+                className="mt-4 rounded-xl shadow-lg w-full max-h-64 object-cover"
+              />
+            )}
+          </div>
+
+          {/* RICH TEXT EDITOR */}
+          <div className="mb-10">
             <label className="block mb-2 text-sm">Blog Content</label>
             <ReactQuill
               theme="snow"
@@ -132,10 +184,11 @@ export default function UploadAllBlog() {
             />
           </div>
 
+          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-semibold transition"
+            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-semibold transition duration-300 shadow-lg"
           >
             {loading ? "Publishing..." : "Publish Blog"}
           </button>
