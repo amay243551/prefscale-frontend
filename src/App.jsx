@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Resources  from "./pages/Resources";
+import Resources from "./pages/Resources";
 import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -15,7 +15,12 @@ import AllBlogs from "./pages/AllBlogs";
 import AllBlogDetail from "./pages/AllBlogDetail";
 import UploadAllBlog from "./pages/UploadAllBlog";
 
-
+/* ======== TOOL PAGES IMPORT ======== */
+import JMeter from "./pages/tools/JMeter";
+import LoadRunner from "./pages/tools/LoadRunner";
+import NeoLoad from "./pages/tools/NeoLoad";
+import Locust from "./pages/tools/Locust";
+import Dynatrace from "./pages/tools/Dynatrace";
 
 function AnimatedRoutes({ user, setUser }) {
   const location = useLocation();
@@ -23,23 +28,34 @@ function AnimatedRoutes({ user, setUser }) {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        
+        {/* ===== Main Pages ===== */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/resources" element={<Resources  />} />
+        <Route path="/resources" element={<Resources />} />
         <Route path="/allblogs" element={<AllBlogs />} />
         <Route path="/allblogs/:id" element={<AllBlogDetail />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
 
+        {/* ===== Tool Pages (NEW) ===== */}
+        <Route path="/tools/jmeter" element={<JMeter />} />
+        <Route path="/tools/loadrunner" element={<LoadRunner />} />
+        <Route path="/tools/neoload" element={<NeoLoad />} />
+        <Route path="/tools/locust" element={<Locust />} />
+        <Route path="/tools/dynatrace" element={<Dynatrace />} />
+
+        {/* ===== Protected Routes ===== */}
         <Route
-  path="/upload-allblog"
-  element={
-    <ProtectedRoute>
-      <UploadAllBlog />
-    </ProtectedRoute>
-  }
-/>
+          path="/upload-allblog"
+          element={
+            <ProtectedRoute>
+              <UploadAllBlog />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/upload-resources"
           element={
@@ -48,6 +64,7 @@ function AnimatedRoutes({ user, setUser }) {
             </ProtectedRoute>
           }
         />
+
       </Routes>
     </AnimatePresence>
   );
