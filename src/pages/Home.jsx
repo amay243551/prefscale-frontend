@@ -130,9 +130,9 @@ export default function Home() {
           <div className="mt-16 space-y-16">
 
             <ToolItem image="/assets/jmeter-logo.png" title="Apache JMeter" link="/tools/jmeter" />
-            <ToolItem image="/assets/loadrunner-logo.jfif" title="OpenText LoadRunner" link="/tools/loadrunner" />
+            <ToolItem image="/assets/loadrunner-logo.png" title="OpenText LoadRunner" link="/tools/loadrunner" />
             <ToolItem image="/assets/neoload-logo.png" title="NeoLoad" link="/tools/neoload" />
-            <ToolItem image="/assets/locust-logo.jfif" title="Locust" link="/tools/locust" />
+            <ToolItem image="/assets/locust-logo.png" title="Locust" link="/tools/locust" />
             <ToolItem image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
 
           </div>
