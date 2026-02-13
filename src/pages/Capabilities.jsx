@@ -17,23 +17,25 @@ export default function Capabilities() {
       transition={{ duration: 0.6 }}
       className="bg-white"
     >
-      {/* ================= HERO SECTION ================= */}
-      <section
-        className="relative h-[60vh] flex items-center bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1581090700227-4c4f50c80e8b')",
-        }}
-      >
-        {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-slate-900/75"></div>
+     
+     {/* ================= HERO SECTION ================= */}
+<section
+  className="relative h-[60vh] flex items-center bg-cover bg-center"
+  style={{
+    backgroundImage:
+      "url('https://images.unsplash.com/photo-1581090700227-4c4f50c80e8b')",
+  }}
+>
+  {/* DARK OVERLAY */}
+  <div className="absolute inset-0 bg-slate-900/75"></div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-8">
-          <h1 className="text-5xl md:text-6xl font-bold text-white text-left">
-            Capabilities
-          </h1>
-        </div>
-      </section>
+  <div className="relative z-10 max-w-7xl mx-auto px-8 w-full">
+    <h1 className="text-5xl md:text-6xl font-bold text-white text-left">
+      Capabilities
+    </h1>
+  </div>
+</section>
+
 
       {/* ================= TITLE SECTION ================= */}
       <section className="py-20 text-center bg-slate-50">
