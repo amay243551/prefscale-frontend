@@ -7,6 +7,11 @@ import {
   BarChart3,
   Server,
   Users,
+  Landmark,
+  ShoppingCart,
+  CreditCard,
+  HeartPulse,
+  RadioTower,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -30,10 +35,6 @@ export default function Home() {
     navigate("/allblogs");
   };
 
-  const handleGetStartedFree = () => {
-    token ? navigate("/") : navigate("/signup");
-  };
-
   return (
     <motion.div
       variants={pageVariant}
@@ -44,83 +45,52 @@ export default function Home() {
       className="bg-white"
     >
       {/* ================= HERO ================= */}
-      <section className="relative h-[90vh] overflow-hidden bg-gradient-to-r from-green-600 to-emerald-500">
-        
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/40" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-8 h-full flex items-center justify-between">
-          
-          {/* LEFT CONTENT */}
+      <section className="h-[90vh] bg-gradient-to-r from-green-700 to-emerald-600 flex items-center">
+        <div className="max-w-7xl mx-auto px-8 w-full flex justify-between items-center">
           <div className="max-w-2xl text-white">
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
               Engineered for Enterprise Performance and Reliability
             </h1>
 
             <p className="mt-6 text-lg text-green-100">
-              Simulate real-world traffic, uncover performance risks, and ensure
-              your applications deliver consistent, high-quality experiences —
-              regardless of scale or complexity.
+              Simulate real-world traffic, uncover performance risks, and ensure your applications deliver
+              consistent, high-quality experiences — regardless of scale or complexity.
             </p>
 
-            <p className="mt-6 text-xl font-semibold text-white">
+            <p className="mt-6 text-xl font-semibold">
               Prevent failures. Deliver excellence. Scale without limits.
             </p>
 
             <div className="mt-10 flex gap-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={handleStartTesting}
                 className="bg-white text-green-700 px-6 py-3 rounded-md font-semibold"
               >
                 Start Testing
-              </motion.button>
+              </button>
 
-              <motion.button
-                whileHover={{ x: 4 }}
+              <button
                 onClick={handleLearnPerformance}
-                className="flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-md font-medium"
+                className="flex items-center gap-2 border border-white text-white px-6 py-3 rounded-md"
               >
                 Learn Performance <ArrowRight size={18} />
-              </motion.button>
+              </button>
             </div>
           </div>
 
-          {/* RIGHT LOGO */}
-          <div className="hidden md:flex items-center justify-center">
-            <img
-              src="/assets/ivavsys.jpg"
-              alt="IVAVSYS Logo"
-              className="w-64 object-contain drop-shadow-xl"
-            />
-          </div>
-
-        </div>
-      </section>
-
-      {/* ================= STATS ================= */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-4 gap-8 text-center">
-          <Stat icon={<Users />} value="100+" label="Concurrent Users Tested" />
-          <Stat icon={<Server />} value="99.9%" label="Uptime Validation" />
-          <Stat icon={<BarChart3 />} value="Real-time" label="Performance Metrics" />
-          <Stat icon={<ShieldCheck />} value="Secure" label="Enterprise Ready" />
-        </div>
-      </section>
-
-      {/* ================= FEATURES ================= */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-8">
-          <h2 className="text-3xl font-bold text-slate-900 text-center">
-            Why Teams Trust PREFSCALE
-          </h2>
-
-          <div className="mt-14 grid md:grid-cols-4 gap-8">
-            <Feature icon={<Gauge />} title="Load Testing" desc="Expected traffic validation." />
-            <Feature icon={<Zap />} title="Stress & Spike" desc="Peak and burst handling." />
-            <Feature icon={<Activity />} title="Live Insights" desc="Latency & throughput." />
-            <Feature icon={<ShieldCheck />} title="Production Confidence" desc="Scale safely." />
+          {/* Logo */}
+          <div className="hidden md:block">
+            <a
+              href="https://in.linkedin.com/company/ivavsys"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/assets/ivavsys.jpg"
+                alt="IVAVSYS Logo"
+                className="w-64 object-contain drop-shadow-xl"
+              />
+            </a>
           </div>
         </div>
       </section>
@@ -128,64 +98,72 @@ export default function Home() {
       {/* ================= PERFORMANCE TOOLS ================= */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-8">
-          <h2 className="text-3xl font-bold text-slate-900 text-center">
+          <h2 className="text-3xl font-bold text-center text-slate-900">
             Performance Engineering Excellence
           </h2>
 
-          <div className="mt-16 space-y-16">
+          <p className="text-center mt-6 text-slate-600 max-w-3xl mx-auto">
+            Powered by industry-leading tools and engineering expertise, we deliver data-driven performance
+            optimization that ensures reliability and business continuity.
+          </p>
 
-            <ToolItem
-              image="/assets/jmeter logo.png"
-              title="Apache JMeter"
-              desc="Open-source performance testing tool for scalable and reliable load testing."
-              link="/tools/jmeter"
-            />
+          <div className="mt-16 space-y-24">
 
-            <ToolItem
-              image="/assets/loadrunner logo.jfif"
-              title="OpenText LoadRunner"
-              desc="Enterprise-grade performance testing solution for large-scale systems."
-              link="/tools/loadrunner"
-            />
-
-            <ToolItem
-              image="/assets/neoload logo.png"
-              title="NeoLoad"
-              desc="Modern load testing tool for continuous performance validation."
-              link="/tools/neoload"
-            />
-
-            <ToolItem
-              image="/assets/locust logo.jfif"
-              title="Locust"
-              desc="Python-based scalable performance testing for real-world simulations."
-              link="/tools/locust"
-            />
-
-            <ToolItem
-              image="/assets/dynatrace.jpeg"
-              title="Dynatrace"
-              desc="AI-powered monitoring and observability platform."
-              link="/tools/dynatrace"
-            />
+            <PlainTool image="/assets/jmeter logo.png" title="Apache JMeter" link="/tools/jmeter" />
+            <PlainTool image="/assets/loadrunner logo.jfif" title="OpenText LoadRunner" link="/tools/loadrunner" />
+            <PlainTool image="/assets/neoload logo.png" title="NeoLoad" link="/tools/neoload" />
+            <PlainTool image="/assets/locust logo.jfif" title="Locust" link="/tools/locust" />
+            <PlainTool image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
 
           </div>
         </div>
       </section>
 
-      {/* ================= FINAL CTA ================= */}
-      <section className="py-14 bg-gradient-to-r from-green-700 to-emerald-600 text-center text-white">
-        <h2 className="text-3xl font-bold">
-          Performance Is a Feature
-        </h2>
+      {/* ================= INDUSTRY EXPERIENCE ================= */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-8">
+          <p className="text-center text-lg text-slate-600 mb-6">
+            Helping organizations achieve performance excellence through scalable and reliable testing solutions.
+          </p>
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          onClick={handleGetStartedFree}
-          className="mt-6 bg-white text-green-700 px-8 py-3 rounded-md font-semibold"
-        >
-          Get Started Free
-        </motion.button>
+          <h2 className="text-3xl font-bold text-center text-slate-900 mb-16">
+            Why Teams Trust PREFSCALE
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-14">
+
+            <IndustryCard
+              icon={<Landmark size={42} />}
+              title="Banking Application Performance Testing"
+              desc="Conducted load and stress testing using LoadRunner and Dynatrace to identify bottlenecks and optimize database and caching performance."
+            />
+
+            <IndustryCard
+              icon={<ShoppingCart size={42} />}
+              title="E-Commerce Platform"
+              desc="Executed large-scale simulations with 50K+ concurrent users, enabling infrastructure scaling and CDN optimization."
+            />
+
+            <IndustryCard
+              icon={<CreditCard size={42} />}
+              title="FinTech Platform"
+              desc="Delivered continuous monitoring through Grafana dashboards ensuring real-time performance visibility."
+            />
+
+            <IndustryCard
+              icon={<HeartPulse size={42} />}
+              title="Healthcare Portal"
+              desc="Engineered performance optimization including code profiling, capacity planning and CI/CD performance gates."
+            />
+
+            <IndustryCard
+              icon={<RadioTower size={42} />}
+              title="Telecom Application"
+              desc="Optimized scalability for live streaming through load testing and database tuning."
+            />
+
+          </div>
+        </div>
       </section>
     </motion.div>
   );
@@ -193,55 +171,37 @@ export default function Home() {
 
 /* ================= COMPONENTS ================= */
 
-function Feature({ icon, title, desc }) {
-  return (
-    <motion.div
-      whileHover={{ y: -6, scale: 1.03 }}
-      transition={{ type: "spring", stiffness: 200 }}
-      className="bg-white p-6 rounded-xl shadow"
-    >
-      <div className="text-slate-700 mb-4">{icon}</div>
-      <h3 className="font-semibold text-slate-900">{title}</h3>
-      <p className="mt-2 text-sm text-slate-600">{desc}</p>
-    </motion.div>
-  );
-}
-
-function Stat({ icon, value, label }) {
-  return (
-    <motion.div whileHover={{ scale: 1.05 }}>
-      <div className="flex justify-center text-slate-700 mb-3">{icon}</div>
-      <div className="text-3xl font-bold text-slate-900">{value}</div>
-      <p className="mt-1 text-sm text-slate-600">{label}</p>
-    </motion.div>
-  );
-}
-
-function ToolItem({ image, title, desc, link }) {
+function PlainTool({ image, title, link }) {
   const navigate = useNavigate();
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      className="flex flex-col md:flex-row items-center gap-10 bg-white p-8 rounded-xl shadow-lg"
-    >
-      <img
-        src={image}
-        alt={title}
-        className="w-48 object-contain"
-      />
+    <div className="flex flex-col md:flex-row items-center gap-12">
+      <div className="md:w-1/3 flex justify-center">
+        <img src={image} alt={title} className="w-72 object-contain" />
+      </div>
 
-      <div className="flex-1">
-        <h3 className="text-2xl font-semibold text-slate-900">{title}</h3>
-        <p className="mt-3 text-slate-600">{desc}</p>
+      <div className="md:w-2/3">
+        <h3 className="text-3xl font-bold text-slate-900">{title}</h3>
 
         <button
           onClick={() => navigate(link)}
-          className="mt-5 bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-800 transition"
+          className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
         >
-          Learn More
+          Learn more
         </button>
       </div>
-    </motion.div>
+    </div>
+  );
+}
+
+function IndustryCard({ icon, title, desc }) {
+  return (
+    <div className="flex items-start gap-6">
+      <div className="text-green-700">{icon}</div>
+      <div>
+        <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
+        <p className="mt-3 text-slate-600">{desc}</p>
+      </div>
+    </div>
   );
 }
