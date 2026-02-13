@@ -25,18 +25,19 @@ export default function Capabilities() {
             "url('https://images.unsplash.com/photo-1581090700227-4c4f50c80e8b')",
         }}
       >
-        <div className="absolute inset-0 bg-blue-900/70"></div>
+        {/* DARK OVERLAY */}
+        <div className="absolute inset-0 bg-slate-900/75"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-8">
-          <h1 className="text-6xl font-bold text-white">
+          <h1 className="text-5xl md:text-6xl font-bold text-white text-left">
             Capabilities
           </h1>
         </div>
       </section>
 
       {/* ================= TITLE SECTION ================= */}
-      <section className="py-20 text-center">
-        <h2 className="text-4xl font-semibold text-blue-700">
+      <section className="py-20 text-center bg-slate-50">
+        <h2 className="text-4xl font-semibold text-slate-900">
           WE OFFER WHAT YOU ARE LOOKING FOR
         </h2>
 
@@ -46,7 +47,7 @@ export default function Capabilities() {
       </section>
 
       {/* ================= CAPABILITIES GRID ================= */}
-      <section className="pb-24">
+      <section className="pb-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-3 gap-12">
 
           <CapabilityCard
@@ -117,9 +118,8 @@ function CapabilityCard({ title, desc }) {
     <motion.div
       whileHover={{ y: -8 }}
       transition={{ type: "spring", stiffness: 200 }}
-      className="bg-white p-10 rounded-xl shadow-md border border-slate-100"
+      className="bg-white p-10 rounded-xl shadow-lg border border-slate-200 hover:shadow-xl transition"
     >
-      {/* Placeholder Icon */}
       <div className="h-40 bg-slate-100 rounded-lg mb-8 flex items-center justify-center text-slate-400">
         Icon / Image
       </div>
