@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Resources from "./pages/Resources";
-import Services from "./pages/Capabilities";
+import Capabilities from "./pages/Capabilities";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import UploadResources from "./pages/UploadResources";
