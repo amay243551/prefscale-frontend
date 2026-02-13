@@ -1,5 +1,9 @@
 import {
   ArrowRight,
+  Users,
+  Server,
+  BarChart3,
+  ShieldCheck,
   Landmark,
   ShoppingCart,
   CreditCard,
@@ -85,14 +89,24 @@ export default function Home() {
               <img
                 src="/assets/ivavsys.jpg"
                 alt="IVAVSYS Logo"
-                className="w-52 object-contain"
+                className="w-56 object-contain"
               />
             </a>
           </div>
         </div>
       </section>
 
-      {/* ================= INDUSTRY SECTION (NOW ABOVE TOOLS) ================= */}
+      {/* ================= METRICS SECTION ================= */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-4 gap-8 text-center">
+          <Metric icon={<Users size={32} />} value="100+" label="Concurrent Users Tested" />
+          <Metric icon={<Server size={32} />} value="99.9%" label="Uptime Validation" />
+          <Metric icon={<BarChart3 size={32} />} value="Real-time" label="Performance Metrics" />
+          <Metric icon={<ShieldCheck size={32} />} value="Enterprise" label="Security & Reliability" />
+        </div>
+      </section>
+
+      {/* ================= INDUSTRY SECTION ================= */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-8">
 
@@ -115,19 +129,19 @@ export default function Home() {
             <IndustryCard
               icon={<ShoppingCart size={40} />}
               title="E-Commerce Platform"
-              desc="Executed large-scale performance simulations with 50K+ concurrent users to assess system readiness."
+              desc="Executed large-scale simulations with 50K+ concurrent users to assess system readiness."
             />
 
             <IndustryCard
               icon={<CreditCard size={40} />}
               title="FinTech Platform"
-              desc="Delivered continuous performance monitoring through Grafana dashboards ensuring real-time performance visibility."
+              desc="Delivered continuous performance monitoring through Grafana dashboards."
             />
 
             <IndustryCard
               icon={<HeartPulse size={40} />}
               title="Healthcare Portal"
-              desc="Engineered performance optimization including code profiling and CI/CD performance gates."
+              desc="Engineered performance optimization including CI/CD performance gates."
             />
 
             <IndustryCard
@@ -140,7 +154,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= PERFORMANCE ENGINEERING (NOW LAST BEFORE CTA) ================= */}
+      {/* ================= PERFORMANCE ENGINEERING ================= */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-8">
 
@@ -154,18 +168,17 @@ export default function Home() {
           </p>
 
           <div className="mt-16 space-y-16">
-
             <PlainTool image="/assets/jmeter logo.png" title="Apache JMeter" link="/tools/jmeter" />
             <PlainTool image="/assets/loadrunner logo.jfif" title="OpenText LoadRunner" link="/tools/loadrunner" />
             <PlainTool image="/assets/neoload logo.png" title="NeoLoad" link="/tools/neoload" />
             <PlainTool image="/assets/locust logo.jfif" title="Locust" link="/tools/locust" />
             <PlainTool image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
-
           </div>
+
         </div>
       </section>
 
-      {/* ================= FINAL CTA RESTORED ================= */}
+      {/* ================= FINAL CTA ================= */}
       <section className="py-16 bg-gradient-to-r from-green-700 to-emerald-600 text-center text-white">
         <h2 className="text-3xl font-bold">
           Performance Is a Feature
@@ -184,6 +197,16 @@ export default function Home() {
 }
 
 /* ================= COMPONENTS ================= */
+
+function Metric({ icon, value, label }) {
+  return (
+    <div>
+      <div className="flex justify-center text-green-700 mb-3">{icon}</div>
+      <div className="text-3xl font-bold text-slate-900">{value}</div>
+      <p className="mt-1 text-sm text-slate-600">{label}</p>
+    </div>
+  );
+}
 
 function PlainTool({ image, title, link }) {
   const navigate = useNavigate();
