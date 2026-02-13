@@ -1,12 +1,5 @@
 import {
   ArrowRight,
-  Gauge,
-  Activity,
-  ShieldCheck,
-  Zap,
-  BarChart3,
-  Server,
-  Users,
   Landmark,
   ShoppingCart,
   CreditCard,
@@ -102,19 +95,18 @@ export default function Home() {
             Performance Engineering Excellence
           </h2>
 
+          {/* ADDED TEXT */}
           <p className="text-center mt-6 text-slate-600 max-w-3xl mx-auto">
             Powered by industry-leading tools and engineering expertise, we deliver data-driven performance
             optimization that ensures reliability and business continuity.
           </p>
 
           <div className="mt-16 space-y-24">
-
             <PlainTool image="/assets/jmeter logo.png" title="Apache JMeter" link="/tools/jmeter" />
             <PlainTool image="/assets/loadrunner logo.jfif" title="OpenText LoadRunner" link="/tools/loadrunner" />
             <PlainTool image="/assets/neoload logo.png" title="NeoLoad" link="/tools/neoload" />
             <PlainTool image="/assets/locust logo.jfif" title="Locust" link="/tools/locust" />
             <PlainTool image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
-
           </div>
         </div>
       </section>
@@ -122,6 +114,8 @@ export default function Home() {
       {/* ================= INDUSTRY EXPERIENCE ================= */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-8">
+
+          {/* ADDED TEXT ABOVE WHY PREFSCALE */}
           <p className="text-center text-lg text-slate-600 mb-6">
             Helping organizations achieve performance excellence through scalable and reliable testing solutions.
           </p>
@@ -130,36 +124,37 @@ export default function Home() {
             Why Teams Trust PREFSCALE
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-14">
+          {/* UPDATED GRID LAYOUT */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-14">
 
             <IndustryCard
-              icon={<Landmark size={42} />}
+              icon={<Landmark size={56} />}
               title="Banking Application Performance Testing"
-              desc="Conducted load and stress testing using LoadRunner and Dynatrace to identify bottlenecks and optimize database and caching performance."
+              desc="Conducted load and stress testing using LoadRunner and Dynatrace to identify bottlenecks and optimize database and caching performance, ensuring scalable and reliable system operations."
             />
 
             <IndustryCard
-              icon={<ShoppingCart size={42} />}
+              icon={<ShoppingCart size={56} />}
               title="E-Commerce Platform"
-              desc="Executed large-scale simulations with 50K+ concurrent users, enabling infrastructure scaling and CDN optimization."
+              desc="Executed large-scale performance simulations with 50K+ concurrent users to assess system readiness. Enabled performance optimization through targeted infrastructure scaling and CDN performance improvements."
             />
 
             <IndustryCard
-              icon={<CreditCard size={42} />}
+              icon={<CreditCard size={56} />}
               title="FinTech Platform"
-              desc="Delivered continuous monitoring through Grafana dashboards ensuring real-time performance visibility."
+              desc="Delivered continuous performance monitoring through Grafana and customized dashboards, ensuring real-time performance visibility and enhanced customer experience."
             />
 
             <IndustryCard
-              icon={<HeartPulse size={42} />}
+              icon={<HeartPulse size={56} />}
               title="Healthcare Portal"
-              desc="Engineered performance optimization including code profiling, capacity planning and CI/CD performance gates."
+              desc="Engineered a complete performance optimization strategy, including code profiling, capacity planning, and CI/CD performance gates to ensure consistent scalability and production readiness."
             />
 
             <IndustryCard
-              icon={<RadioTower size={42} />}
+              icon={<RadioTower size={56} />}
               title="Telecom Application"
-              desc="Optimized scalability for live streaming through load testing and database tuning."
+              desc="Engineered performance optimization for live class streaming through scalability testing and database tuning, ensuring consistent and reliable learning experiences at scale."
             />
 
           </div>
@@ -196,12 +191,18 @@ function PlainTool({ image, title, link }) {
 
 function IndustryCard({ icon, title, desc }) {
   return (
-    <div className="flex items-start gap-6">
-      <div className="text-green-700">{icon}</div>
-      <div>
-        <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
-        <p className="mt-3 text-slate-600">{desc}</p>
+    <div className="text-center px-6">
+      <div className="flex justify-center text-green-700 mb-6">
+        {icon}
       </div>
+
+      <h3 className="text-xl font-semibold text-slate-900">
+        {title}
+      </h3>
+
+      <p className="mt-4 text-slate-600">
+        {desc}
+      </p>
     </div>
   );
 }
