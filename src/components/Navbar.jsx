@@ -34,7 +34,7 @@ export default function Navbar({ user, setUser }) {
         </Link>
 
         <Link to="/capabilities" className={linkStyle("/Capabilities")}>
-          Services
+          Capabilities
         </Link>
 
         {/* 🔥 Resources (Old Blog Section) */}
