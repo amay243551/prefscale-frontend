@@ -139,10 +139,10 @@ export default function Resources() {
         {role === "admin" && (
           <div className="flex justify-center mb-10">
             <button
-              onClick={() => navigate("/upload-blog")}
+              onClick={() => navigate("/upload-resources")}
               className="bg-blue-600 text-white px-6 py-3 rounded flex items-center gap-2"
             >
-              <Plus size={18} /> Upload Resource
+              <Plus size={18} /> + Upload Resource
             </button>
           </div>
         )}
