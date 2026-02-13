@@ -44,16 +44,29 @@ export default function Resources() {
 
   /* ================= DOWNLOAD PDF ================= */
 
-  const handleDownload = (fileUrl, title) => {
-    if (!ensureLogin()) return;
+  const handleDownload = async (fileUrl, title) => {
+  if (!ensureLogin()) return;
 
+  try {
+    const response = await fetch(fileUrl);
+    const blob = await response.blob();
+
+    const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.href = fileUrl;
+
+    link.href = url;
     link.download = `${title.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`;
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    alert("Download failed ❌");
+  }
+};
+
 
   /* ================= DELETE (ADMIN) ================= */
 
