@@ -51,46 +51,49 @@ export default function Home() {
       className="bg-white"
     >
 
-      {/* ================= HERO ================= */}
-      <section className="h-[90vh] bg-gradient-to-r from-blue-900 to-blue-700 flex items-center">
-        <div className="max-w-7xl mx-auto px-8 w-full flex justify-between items-center">
-          <div className="max-w-2xl text-white">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Engineered for Enterprise Performance and Reliability
-            </h1>
+{/* ================= HERO ================= */}
+<section className="min-h-[70vh] bg-gradient-to-r from-blue-900 to-blue-700 flex items-center py-20">
+  <div className="max-w-7xl mx-auto px-8 w-full flex justify-between items-center">
 
-            <p className="mt-6 text-lg text-blue-100">
-              Simulate real-world traffic, uncover performance risks, and ensure
-              your applications deliver consistent, high-quality experiences.
-            </p>
+    <div className="max-w-2xl text-white">
+      <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+        Engineered for Enterprise Performance and Reliability
+      </h1>
 
-            <div className="mt-10 flex gap-4">
-              <button
-                onClick={handleStartTesting}
-                className="bg-white text-blue-800 px-6 py-3 rounded-md font-semibold"
-              >
-                Start Testing
-              </button>
+      <p className="mt-6 text-lg text-blue-100">
+        Simulate real-world traffic, uncover performance risks, and ensure
+        your applications deliver consistent, high-quality experiences.
+      </p>
 
-              <button
-                onClick={handleLearnPerformance}
-                className="flex items-center gap-2 border border-white text-white px-6 py-3 rounded-md"
-              >
-                Learn Performance <ArrowRight size={18} />
-              </button>
-            </div>
-          </div>
+      <div className="mt-10 flex gap-4">
+        <button
+          onClick={handleStartTesting}
+          className="bg-white text-blue-800 px-6 py-3 rounded-md font-semibold"
+        >
+          Start Testing
+        </button>
 
-          {/* Logo Bigger */}
-          <div className="hidden md:block">
-            <img
-              src="/assets/PTPE_Logo2.JPG"
-              alt="PTPE Logo"
-              className="w-80 object-contain"
-            />
-          </div>
-        </div>
-      </section>
+        <button
+          onClick={handleLearnPerformance}
+          className="flex items-center gap-2 border border-white text-white px-6 py-3 rounded-md"
+        >
+          Learn Performance <ArrowRight size={18} />
+        </button>
+      </div>
+    </div>
+
+    {/* Bigger Logo */}
+    <div className="hidden md:block">
+      <img
+        src="/assets/PTPE_Logo2.JPG"
+        alt="PTPE Logo"
+        className="w-80 object-contain"
+      />
+    </div>
+
+  </div>
+</section>
+
 
       {/* ================= METRICS ================= */}
       <section className="py-16 bg-slate-50">
