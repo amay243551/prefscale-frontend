@@ -8,12 +8,10 @@ import {
   ShoppingCart,
   CreditCard,
   HeartPulse,
-  RadioTower,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-/* ================= PAGE ANIMATION ================= */
 const pageVariant = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
@@ -46,7 +44,7 @@ export default function Home() {
       className="bg-white"
     >
 
-      {/* ================= HERO ================= */}
+      {/* HERO */}
       <section className="h-[90vh] bg-gradient-to-r from-green-700 to-emerald-600 flex items-center">
         <div className="max-w-7xl mx-auto px-8 w-full flex justify-between items-center">
           <div className="max-w-2xl text-white">
@@ -81,22 +79,16 @@ export default function Home() {
           </div>
 
           <div className="hidden md:block">
-            <a
-              href="https://in.linkedin.com/company/ivavsys"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/assets/ivavsys.jpg"
-                alt="IVAVSYS Logo"
-                className="w-56 object-contain"
-              />
-            </a>
+            <img
+              src="/assets/ivavsys.jpg"
+              alt="IVAVSYS Logo"
+              className="w-52 object-contain"
+            />
           </div>
         </div>
       </section>
 
-      {/* ================= METRICS SECTION ================= */}
+      {/* METRICS */}
       <section className="py-16 bg-slate-50">
         <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-4 gap-8 text-center">
           <Metric icon={<Users size={32} />} value="100+" label="Concurrent Users Tested" />
@@ -106,7 +98,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= INDUSTRY SECTION ================= */}
+      {/* INDUSTRY */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-8">
 
@@ -123,62 +115,45 @@ export default function Home() {
             <IndustryCard
               icon={<Landmark size={40} />}
               title="Banking Application Performance Testing"
-              desc="Conducted load and stress testing using LoadRunner and Dynatrace to identify bottlenecks and optimize database and caching performance."
+              desc="Load & stress testing using LoadRunner and Dynatrace."
             />
 
             <IndustryCard
               icon={<ShoppingCart size={40} />}
               title="E-Commerce Platform"
-              desc="Executed large-scale simulations with 50K+ concurrent users to assess system readiness."
+              desc="50K+ concurrent users performance simulation."
             />
 
             <IndustryCard
               icon={<CreditCard size={40} />}
               title="FinTech Platform"
-              desc="Delivered continuous performance monitoring through Grafana dashboards."
+              desc="Continuous monitoring with Grafana dashboards."
             />
 
             <IndustryCard
               icon={<HeartPulse size={40} />}
               title="Healthcare Portal"
-              desc="Engineered performance optimization including CI/CD performance gates."
-            />
-
-            <IndustryCard
-              icon={<RadioTower size={40} />}
-              title="Telecom Application"
-              desc="Optimized scalability for live streaming through load testing and database tuning."
+              desc="CI/CD performance gates and optimization."
             />
 
           </div>
         </div>
       </section>
 
-      {/* ================= PERFORMANCE ENGINEERING ================= */}
+      {/* PERFORMANCE TOOLS */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-8">
-
           <h2 className="text-3xl font-bold text-center text-slate-900">
             Performance Engineering Excellence
           </h2>
 
           <p className="text-center mt-6 text-slate-600 max-w-3xl mx-auto">
-            Powered by industry-leading tools and engineering expertise, we deliver data-driven performance
-            optimization that ensures reliability and business continuity.
+            Powered by industry-leading tools and engineering expertise.
           </p>
-
-          <div className="mt-16 space-y-16">
-            <PlainTool image="/assets/jmeter logo.png" title="Apache JMeter" link="/tools/jmeter" />
-            <PlainTool image="/assets/loadrunner logo.jfif" title="OpenText LoadRunner" link="/tools/loadrunner" />
-            <PlainTool image="/assets/neoload logo.png" title="NeoLoad" link="/tools/neoload" />
-            <PlainTool image="/assets/locust logo.jfif" title="Locust" link="/tools/locust" />
-            <PlainTool image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
-          </div>
-
         </div>
       </section>
 
-      {/* ================= FINAL CTA ================= */}
+      {/* FINAL CTA */}
       <section className="py-16 bg-gradient-to-r from-green-700 to-emerald-600 text-center text-white">
         <h2 className="text-3xl font-bold">
           Performance Is a Feature
@@ -196,8 +171,6 @@ export default function Home() {
   );
 }
 
-/* ================= COMPONENTS ================= */
-
 function Metric({ icon, value, label }) {
   return (
     <div>
@@ -208,43 +181,14 @@ function Metric({ icon, value, label }) {
   );
 }
 
-function PlainTool({ image, title, link }) {
-  const navigate = useNavigate();
-
-  return (
-    <div className="flex flex-col md:flex-row items-center gap-10">
-      <div className="md:w-1/3 flex justify-center">
-        <img src={image} alt={title} className="w-48 object-contain" />
-      </div>
-
-      <div className="md:w-2/3">
-        <h3 className="text-2xl font-semibold text-slate-900">{title}</h3>
-
-        <button
-          onClick={() => navigate(link)}
-          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
-        >
-          Learn more
-        </button>
-      </div>
-    </div>
-  );
-}
-
 function IndustryCard({ icon, title, desc }) {
   return (
     <div className="text-center px-4">
       <div className="flex justify-center text-green-700 mb-4">
         {icon}
       </div>
-
-      <h3 className="text-lg font-semibold text-slate-900">
-        {title}
-      </h3>
-
-      <p className="mt-3 text-slate-600 text-sm">
-        {desc}
-      </p>
+      <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+      <p className="mt-3 text-slate-600 text-sm">{desc}</p>
     </div>
   );
 }
