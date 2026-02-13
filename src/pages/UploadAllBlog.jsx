@@ -31,10 +31,7 @@ export default function UploadAllBlog() {
       formData.append("image", file);
 
       try {
-        const res = await api.post(
-          "/api/admin/upload-image",
-          formData
-        );
+        const res = await api.post("/api/admin/upload-image", formData);
 
         const imageUrl = res.data.url;
 
@@ -58,11 +55,7 @@ export default function UploadAllBlog() {
     formData.append("image", file);
 
     try {
-      const res = await api.post(
-        "/api/admin/upload-image",
-        formData
-      );
-
+      const res = await api.post("/api/admin/upload-image", formData);
       setThumbnail(res.data.url);
       setThumbnailPreview(res.data.url);
     } catch (err) {
@@ -70,7 +63,7 @@ export default function UploadAllBlog() {
     }
   };
 
-  /* ================= QUILL MODULES ================= */
+  /* ================= QUILL TOOLBAR ================= */
 
   const modules = {
     toolbar: {
@@ -173,17 +166,17 @@ export default function UploadAllBlog() {
           {/* RICH TEXT EDITOR */}
           <div className="mb-10">
             <label className="block mb-2 text-sm">Blog Content</label>
-           <div className="bg-white rounded-lg overflow-hidden">
-            <ReactQuill
-            theme="snow"
-            value={content}
-            onChange={setContent}
-            modules={modules}
-            ref={quillRef}
-            className="text-black"
-             />
-           </div>
-            >
+            <div className="bg-white rounded-lg overflow-hidden">
+              <ReactQuill
+                theme="snow"
+                value={content}
+                onChange={setContent}
+                modules={modules}
+                ref={quillRef}
+                className="text-black"
+              />
+            </div>
+          </div>
 
           {/* SUBMIT */}
           <button
