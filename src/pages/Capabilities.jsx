@@ -8,13 +8,12 @@ import {
   Rocket,
   Monitor,
   Smartphone,
-  Database,
+  BarChart3,
   Cloud,
-  BarChart,
-  Activity,
+  Link,
+  TrendingUp,
 } from "lucide-react";
 
-/* ================= PAGE TRANSITION ================= */
 const pageTransition = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
@@ -22,8 +21,6 @@ const pageTransition = {
 };
 
 export default function Capabilities() {
-  const navigate = useNavigate();
-
   return (
     <motion.div
       variants={pageTransition}
@@ -31,43 +28,108 @@ export default function Capabilities() {
       animate="visible"
       exit="exit"
       transition={{ duration: 0.6 }}
-      className="bg-white"
+      className="bg-slate-950 text-white"
     >
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative h-[60vh] flex items-center bg-gradient-to-r from-slate-900 to-blue-900">
-        <div className="max-w-7xl mx-auto px-8 w-full">
-          <h1 className="text-5xl md:text-6xl font-bold text-white text-left">
+      {/* HERO */}
+      <section className="py-28 bg-gradient-to-r from-slate-900 to-blue-950">
+        <div className="max-w-7xl mx-auto px-8">
+          <h1 className="text-5xl font-bold text-left">
             Capabilities
           </h1>
         </div>
       </section>
 
-      {/* ================= TITLE SECTION ================= */}
-      <section className="py-20 text-center bg-slate-50">
-        <h2 className="text-4xl font-semibold text-slate-900">
+      {/* TITLE */}
+      <section className="py-20 text-center">
+        <h2 className="text-4xl font-semibold text-white">
           WE OFFER WHAT YOU ARE LOOKING FOR
         </h2>
 
-        <p className="mt-6 max-w-4xl mx-auto text-slate-600 leading-relaxed">
-          We deliver end-to-end performance assurance — from early development validation to live production monitoring — ensuring scalable, reliable, and high-performing digital platforms.
+        <p className="mt-6 max-w-4xl mx-auto text-slate-400">
+          We deliver end-to-end performance assurance — from development validation to production monitoring.
         </p>
       </section>
 
-      {/* ================= CAPABILITIES GRID ================= */}
-      <section className="pb-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-3 gap-12">
+      {/* GRID */}
+      <section className="pb-24">
+        <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-3 gap-10">
 
-          <CapabilityCard icon={<Gauge size={48} />} title="Load Testing" link="/capabilities/load-testing" />
-          <CapabilityCard icon={<Flame size={48} />} title="Stress Testing" link="/capabilities/stress-testing" />
-          <CapabilityCard icon={<Clock size={48} />} title="Endurance Testing" link="/capabilities/endurance-testing" />
-          <CapabilityCard icon={<Zap size={48} />} title="Spike Testing" link="/capabilities/spike-testing" />
-          <CapabilityCard icon={<Rocket size={48} />} title="Early Performance Testing" link="/capabilities/early-performance" />
-          <CapabilityCard icon={<Monitor size={48} />} title="UI Performance Testing" link="/capabilities/ui-performance" />
-          <CapabilityCard icon={<Smartphone size={48} />} title="Mobile Performance Testing" link="/capabilities/mobile-performance" />
-          <CapabilityCard icon={<Activity size={48} />} title="Dynatrace Observability" link="/capabilities/dynatrace" />
-          <CapabilityCard icon={<Database size={48} />} title="API Performance Testing" link="/capabilities/api-performance" />
-          <CapabilityCard icon={<Cloud size={48} />} title="Cloud Performance Testing" link="/capabilities/cloud-performance" />
-          <CapabilityCard icon={<BarChart size={48} />} title="Scalability Testing" link="/capabilities/scalability-testing" />
+          <CapabilityCard
+            icon={<Gauge size={40} />}
+            title="Load Testing"
+            short="Validate expected user traffic performance."
+            link="/capabilities/load-testing"
+          />
+
+          <CapabilityCard
+            icon={<Flame size={40} />}
+            title="Stress Testing"
+            short="Test limits under extreme workloads."
+            link="/capabilities/stress-testing"
+          />
+
+          <CapabilityCard
+            icon={<Clock size={40} />}
+            title="Endurance Testing"
+            short="Validate long-duration stability."
+            link="/capabilities/endurance-testing"
+          />
+
+          <CapabilityCard
+            icon={<Zap size={40} />}
+            title="Spike Testing"
+            short="Handle sudden traffic surges."
+            link="/capabilities/spike-testing"
+          />
+
+          <CapabilityCard
+            icon={<Rocket size={40} />}
+            title="Early Performance Testing"
+            short="Shift performance left in SDLC."
+            link="/capabilities/early-performance-testing"
+          />
+
+          <CapabilityCard
+            icon={<Monitor size={40} />}
+            title="UI Performance Testing"
+            short="Ensure fast frontend responsiveness."
+            link="/capabilities/ui-performance-testing"
+          />
+
+          <CapabilityCard
+            icon={<Smartphone size={40} />}
+            title="Mobile Performance Testing"
+            short="Optimize mobile responsiveness."
+            link="/capabilities/mobile-performance-testing"
+          />
+
+          <CapabilityCard
+            icon={<BarChart3 size={40} />}
+            title="Dynatrace Observability"
+            short="AI-driven monitoring & visibility."
+            link="/capabilities/dynatrace-observability"
+          />
+
+          <CapabilityCard
+            icon={<Link size={40} />}
+            title="API Performance Testing"
+            short="Validate API speed & reliability."
+            link="/capabilities/api-performance-testing"
+          />
+
+          <CapabilityCard
+            icon={<Cloud size={40} />}
+            title="Cloud Performance Testing"
+            short="Ensure cloud scalability."
+            link="/capabilities/cloud-performance-testing"
+          />
+
+          <CapabilityCard
+            icon={<TrendingUp size={40} />}
+            title="Scalability Testing"
+            short="Test future growth readiness."
+            link="/capabilities/scalability-testing"
+          />
 
         </div>
       </section>
@@ -75,30 +137,29 @@ export default function Capabilities() {
   );
 }
 
-/* ================= CAPABILITY CARD ================= */
-
-function CapabilityCard({ icon, title, link }) {
+function CapabilityCard({ icon, title, short, link }) {
   const navigate = useNavigate();
 
   return (
     <motion.div
       whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 200 }}
-      className="bg-white p-10 rounded-xl shadow-md border border-slate-200 hover:shadow-xl transition"
+      className="bg-slate-900 p-8 rounded-xl border border-slate-800 shadow-lg"
     >
-      <div className="text-blue-700 mb-6">
-        {icon}
-      </div>
+      <div className="text-blue-500 mb-6">{icon}</div>
 
-      <h3 className="text-xl font-semibold text-slate-900">
+      <h3 className="text-xl font-semibold text-white">
         {title}
       </h3>
 
+      <p className="mt-3 text-slate-400 text-sm">
+        {short}
+      </p>
+
       <button
         onClick={() => navigate(link)}
-        className="mt-6 text-blue-700 font-medium hover:underline"
+        className="mt-5 text-blue-400 hover:text-blue-300"
       >
-        Learn More
+        Learn More →
       </button>
     </motion.div>
   );
