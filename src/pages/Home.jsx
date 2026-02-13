@@ -81,12 +81,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Bigger Logo */}
+          {/* Logo Bigger */}
           <div className="hidden md:block">
             <img
               src="/assets/PTPE_Logo2.JPG"
               alt="PTPE Logo"
-              className="w-72 object-contain"
+              className="w-80 object-contain"
             />
           </div>
         </div>
@@ -122,19 +122,16 @@ export default function Home() {
       {/* ================= TOOLS ================= */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-8">
-
           <h2 className="text-3xl font-bold text-center text-slate-900">
             Performance Engineering Excellence
           </h2>
 
           <div className="mt-16 space-y-16">
-
             <ToolItem image="/assets/jmeter-logo.png" title="Apache JMeter" link="/tools/jmeter" />
             <ToolItem image="/assets/loadrunner-logo.png" title="OpenText LoadRunner" link="/tools/loadrunner" />
             <ToolItem image="/assets/neoload-logo.png" title="NeoLoad" link="/tools/neoload" />
             <ToolItem image="/assets/locust-logo.png" title="Locust" link="/tools/locust" />
             <ToolItem image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
-
           </div>
         </div>
       </section>
@@ -154,7 +151,7 @@ export default function Home() {
       </section>
 
       {/* ================= FOOTER ================= */}
-      <footer className="bg-blue-950 text-white py-14">
+      <footer className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-14">
         <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-4 gap-12">
 
           <div>
@@ -166,9 +163,9 @@ export default function Home() {
 
           <div>
             <h3 className="text-xl font-semibold mb-4">Navigation</h3>
-            <p>Capabilities</p>
-            <p>Blog</p>
-            <p>About Us</p>
+            <p className="cursor-pointer hover:underline" onClick={() => navigate("/capabilities")}>Capabilities</p>
+            <p className="cursor-pointer hover:underline" onClick={() => navigate("/allblogs")}>Blog</p>
+            <p className="cursor-pointer hover:underline" onClick={() => navigate("/resources")}>Resources</p>
           </div>
 
           <div>
@@ -181,21 +178,11 @@ export default function Home() {
           <div>
             <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
             <div className="flex gap-4 text-2xl">
-              <motion.div whileHover={{ scale: 1.2 }}>
-                <FaWhatsapp />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.2 }}>
-                <FaFacebook />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.2 }}>
-                <FaLinkedin />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.2 }}>
-                <FaTwitter />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.2 }}>
-                <FaYoutube />
-              </motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaWhatsapp /></motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaFacebook /></motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaLinkedin /></motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaTwitter /></motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaYoutube /></motion.div>
             </div>
           </div>
 
