@@ -22,18 +22,19 @@ import NeoLoad from "./pages/tools/NeoLoad";
 import Locust from "./pages/tools/Locust";
 import Dynatrace from "./pages/tools/Dynatrace";
 
-/* ======== Capability Pages ======== */
+
+/* ======== CAPABILITY PAGES (MATCHING YOUR FILE NAMES) ======== */
 import LoadTesting from "./pages/capabilities/LoadTesting";
 import StressTesting from "./pages/capabilities/StressTesting";
-import EnduranceTesting from "./pages/capabilities/EnduranceTesting";
 import SpikeTesting from "./pages/capabilities/SpikeTesting";
-import EarlyPerformance from "./pages/capabilities/EarlyPerformance";
-import UIPerformance from "./pages/capabilities/UIPerformance";
-import MobilePerformance from "./pages/capabilities/MobilePerformance";
-import APIPerformance from "./pages/capabilities/APIPerformance";
-import CloudPerformance from "./pages/capabilities/CloudPerformance";
+import Endurance from "./pages/capabilities/Endurance";
+import EarlyPerformanceTesting from "./pages/capabilities/EarlyPerformanceTesting";
+import UIPerformanceTesting from "./pages/capabilities/UIPerformanceTesting";
+import MobilePerformanceTesting from "./pages/capabilities/MobilePerformanceTesting";
+import APIPerformanceTesting from "./pages/capabilities/APIPerformanceTesting";
+import CloudPerformanceTesting from "./pages/capabilities/CloudPerformanceTesting";
 import ScalabilityTesting from "./pages/capabilities/ScalabilityTesting";
-
+import DynatraceObservability from "./pages/capabilities/DynatraceObservability";
 
 
 function AnimatedRoutes({ user, setUser }) {
@@ -60,6 +61,23 @@ function AnimatedRoutes({ user, setUser }) {
         <Route path="/tools/locust" element={<Locust />} />
         <Route path="/tools/dynatrace" element={<Dynatrace />} />
 
+        
+      
+        {/* ===== CAPABILITY ROUTES ===== */}
+        <Route path="/capabilities/load-testing" element={<LoadTesting />} />
+        <Route path="/capabilities/stress-testing" element={<StressTesting />} />
+        <Route path="/capabilities/spike-testing" element={<SpikeTesting />} />
+        <Route path="/capabilities/endurance-testing" element={<Endurance />} />
+        <Route path="/capabilities/early-performance-testing" element={<EarlyPerformanceTesting />} />
+        <Route path="/capabilities/ui-performance-testing" element={<UIPerformanceTesting />} />
+        <Route path="/capabilities/mobile-performance-testing" element={<MobilePerformanceTesting />} />
+        <Route path="/capabilities/api-performance-testing" element={<APIPerformanceTesting />} />
+        <Route path="/capabilities/cloud-performance-testing" element={<CloudPerformanceTesting />} />
+        <Route path="/capabilities/scalability-testing" element={<ScalabilityTesting />} />
+        <Route path="/capabilities/dynatrace-observability" element={<DynatraceObservability />} />
+
+
+
         {/* ===== Protected Routes ===== */}
         <Route
           path="/upload-allblog"
@@ -77,20 +95,7 @@ function AnimatedRoutes({ user, setUser }) {
               <UploadResources />
             </ProtectedRoute>
           }
-        />
-
-        {/* ===== Capability Testing Routes ===== */}
-<Route path="/capabilities/load-testing" element={<LoadTesting />} />
-<Route path="/capabilities/stress-testing" element={<StressTesting />} />
-<Route path="/capabilities/endurance-testing" element={<EnduranceTesting />} />
-<Route path="/capabilities/spike-testing" element={<SpikeTesting />} />
-<Route path="/capabilities/early-performance" element={<EarlyPerformance />} />
-<Route path="/capabilities/ui-performance" element={<UIPerformance />} />
-<Route path="/capabilities/mobile-performance" element={<MobilePerformance />} />
-<Route path="/capabilities/api-performance" element={<APIPerformance />} />
-<Route path="/capabilities/cloud-performance" element={<CloudPerformance />} />
-<Route path="/capabilities/scalability-testing" element={<ScalabilityTesting />} />
-        
+        />        
       </Routes>
     </AnimatePresence>
   );
