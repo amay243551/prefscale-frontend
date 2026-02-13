@@ -90,7 +90,7 @@ export default function Home() {
           {/* RIGHT LOGO */}
           <div className="hidden md:flex items-center justify-center">
             <img
-              src="/assets/ivavsys-logo.png"
+              src="/assets/ivavsys-ivavsys.jpg"
               alt="IVAVSYS Logo"
               className="w-64 object-contain drop-shadow-xl"
             />
