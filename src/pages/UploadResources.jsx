@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 
-export default function UploadResource() {
+export default function UploadResources() {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -28,29 +28,21 @@ export default function UploadResource() {
     try {
       setLoading(true);
 
-      await api.post(
-        "/api/admin/upload-resource",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await api.post("/api/admin/upload-resource", formData);
 
       alert("Resource uploaded successfully 🚀");
       navigate("/resources");
     } catch (err) {
       console.error(err);
-      alert("Upload failed");
+      alert("Upload failed ❌");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-900 text-white py-16 px-6">
-      <div className="max-w-xl mx-auto bg-white/5 backdrop-blur-xl p-10 rounded-3xl border border-white/10 shadow-2xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-black text-white py-16 px-6">
+      <div className="max-w-xl mx-auto bg-white/5 p-10 rounded-3xl">
 
         <h2 className="text-4xl font-bold mb-10 text-center">
           📂 Upload Resource
@@ -58,62 +50,44 @@ export default function UploadResource() {
 
         <form onSubmit={handleSubmit}>
 
-          {/* TITLE */}
-          <div className="mb-6">
-            <label className="block mb-2 text-sm">Title</label>
-            <input
-              type="text"
-              className="w-full p-3 rounded-lg text-black"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter resource title"
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Title"
+            className="w-full p-3 mb-6 rounded text-black"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
 
-          {/* DESCRIPTION */}
-          <div className="mb-6">
-            <label className="block mb-2 text-sm">Description</label>
-            <textarea
-              className="w-full p-3 rounded-lg text-black"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Short description"
-            />
-          </div>
+          <textarea
+            placeholder="Description"
+            className="w-full p-3 mb-6 rounded text-black"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
 
-          {/* CATEGORY */}
-          <div className="mb-6">
-            <label className="block mb-2 text-sm">Category</label>
-            <select
-              className="w-full p-3 rounded-lg text-black"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="foundations">Foundations</option>
-              <option value="deepdive">DeepDive</option>
-            </select>
-          </div>
+          <select
+            className="w-full p-3 mb-6 rounded text-black"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="foundations">Foundations</option>
+            <option value="deepdive">Deep Dive</option>
+          </select>
 
-          {/* FILE UPLOAD */}
-          <div className="mb-8">
-            <label className="block mb-2 text-sm">Upload PDF</label>
-            <input
-              type="file"
-              accept="application/pdf"
-              onChange={(e) => setFile(e.target.files[0])}
-              className="text-sm"
-            />
-          </div>
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => setFile(e.target.files[0])}
+            className="mb-6"
+          />
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-semibold transition duration-300 shadow-lg"
+            className="w-full bg-blue-600 py-3 rounded"
           >
             {loading ? "Uploading..." : "Upload Resource"}
           </button>
-
         </form>
       </div>
     </div>
