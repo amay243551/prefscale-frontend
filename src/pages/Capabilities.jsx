@@ -7,7 +7,7 @@ const pageTransition = {
   exit: { opacity: 0, y: -30 },
 };
 
-export default function Services() {
+export default function Capabilities() {
   return (
     <motion.div
       variants={pageTransition}
