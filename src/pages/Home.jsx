@@ -114,6 +114,11 @@ export default function Home() {
             <IndustryCard icon={<ShoppingCart size={40} />} title="E-Commerce Platform" desc="50K+ concurrent users performance simulation." />
             <IndustryCard icon={<CreditCard size={40} />} title="FinTech Platform" desc="Continuous monitoring with Grafana dashboards." />
             <IndustryCard icon={<HeartPulse size={40} />} title="Healthcare Portal" desc="CI/CD performance gates and optimization." />
+            <IndustryCard
+    icon={<BarChart3 size={40} />}
+    title="Telecom Application"
+    desc="Engineered performance optimization for live class streaming through scalability testing and database tuning, ensuring consistent and reliable learning experiences at scale."
+  />
           </div>
         </div>
       </section>
