@@ -116,4 +116,4 @@ function ServiceItem({ title, desc }) {
     </motion.div>
   );
 }
-Capabilities.tsx
+
