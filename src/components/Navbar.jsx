@@ -33,7 +33,7 @@ export default function Navbar({ user, setUser }) {
           About
         </Link>
 
-        <Link to="/services" className={linkStyle("/services")}>
+        <Link to="/capabilities" className={linkStyle("/Capabilities")}>
           Services
         </Link>
 
