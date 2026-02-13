@@ -173,16 +173,17 @@ export default function UploadAllBlog() {
           {/* RICH TEXT EDITOR */}
           <div className="mb-10">
             <label className="block mb-2 text-sm">Blog Content</label>
+           <div className="bg-white rounded-lg overflow-hidden">
             <ReactQuill
-              theme="snow"
-              value={content}
-              onChange={setContent}
-              modules={modules}
-              ref={quillRef}
-              className="bg-white text-black rounded-lg"
-              style={{ height: "400px", marginBottom: "50px" }}
-            />
-          </div>
+            theme="snow"
+            value={content}
+            onChange={setContent}
+            modules={modules}
+            ref={quillRef}
+            className="text-black"
+             />
+           </div>
+            >
 
           {/* SUBMIT */}
           <button
