@@ -99,11 +99,6 @@ export default function AllBlogDetail() {
    const plainText = blog.content
   ? blog.content.replace(/<[^>]+>/g, "")
   : "";
-    
-    const splitText = doc.splitTextToSize(
-      plainText,
-      180
-    );
 
     doc.text(splitText, 10, 30);
 
