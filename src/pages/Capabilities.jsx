@@ -34,7 +34,7 @@ export default function Capabilities() {
       <section className="py-28 bg-gradient-to-r from-slate-900 to-blue-950">
         <div className="max-w-7xl mx-auto px-8">
           <h1 className="text-5xl font-bold text-left">
-            Capabilities
+             Our Capabilities
           </h1>
         </div>
       </section>
