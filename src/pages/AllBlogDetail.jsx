@@ -10,6 +10,8 @@ import {
   Download,
 } from "lucide-react";
 import api from "../utils/api";
+import jsPDF from "jspdf";
+
 
 export default function AllBlogDetail() {
   const { id } = useParams();
