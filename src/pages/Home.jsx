@@ -53,7 +53,7 @@ export default function Home() {
 
       {/* ================= HERO WITH LOGO BACKGROUND ================= */}
       <section
-        className="relative min-h-[80vh] flex items-center bg-cover bg-center"
+        className="relative min-h-[90vh] flex items-center bg-cover bg-center"
         style={{
           backgroundImage: "url('/assets/PTPE_Logo2.JPG')",
         }}
