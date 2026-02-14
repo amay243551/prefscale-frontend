@@ -96,13 +96,10 @@ export default function AllBlogDetail() {
 
     doc.setFontSize(12);
 
-    const textContent = document
-      .createElement("div");
-
-    textContent.innerHTML = blog.content || "";
-
-    const plainText = textContent.innerText;
-
+   const plainText = blog.content
+  ? blog.content.replace(/<[^>]+>/g, "")
+  : "";
+    
     const splitText = doc.splitTextToSize(
       plainText,
       180
