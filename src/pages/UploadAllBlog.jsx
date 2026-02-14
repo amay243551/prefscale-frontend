@@ -36,8 +36,15 @@ export default function UploadAllBlog() {
         const imageUrl = res.data.url;
 
         const editor = quillRef.current.getEditor();
-        const range = editor.getSelection(true);
+
+        // ✅ SAFE RANGE FIX (prevents crash)
+        const range =
+          editor.getSelection(true) || {
+            index: editor.getLength(),
+          };
+
         editor.insertEmbed(range.index, "image", imageUrl);
+        editor.setSelection(range.index + 1);
       } catch (err) {
         console.error(err);
         alert("Image upload failed");
@@ -58,7 +65,7 @@ export default function UploadAllBlog() {
       const res = await api.post("/api/admin/upload-image", formData);
       setThumbnail(res.data.url);
       setThumbnailPreview(res.data.url);
-    } catch (err) {
+    } catch {
       alert("Thumbnail upload failed");
     }
   };
@@ -166,15 +173,20 @@ export default function UploadAllBlog() {
           {/* RICH TEXT EDITOR */}
           <div className="mb-10">
             <label className="block mb-2 text-sm">Blog Content</label>
+
             <div className="bg-white rounded-lg overflow-hidden">
+
+              {/* ✅ FIXED HEIGHT + SCROLL */}
               <ReactQuill
+                ref={quillRef}
                 theme="snow"
                 value={content}
                 onChange={setContent}
                 modules={modules}
-                ref={quillRef}
                 className="text-black"
+                style={{ height: "400px" }}
               />
+
             </div>
           </div>
 
