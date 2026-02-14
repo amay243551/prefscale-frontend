@@ -10,7 +10,6 @@ import {
   Download,
 } from "lucide-react";
 import api from "../utils/api";
-import htmlDocx from "html-docx-js/dist/html-docx";
 
 export default function AllBlogDetail() {
   const { id } = useParams();
