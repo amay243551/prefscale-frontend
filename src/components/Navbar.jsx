@@ -1,7 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Navbar({ user, setUser }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.clear();
@@ -9,17 +10,42 @@ export default function Navbar({ user, setUser }) {
     navigate("/login");
   };
 
+  const linkStyle = (path) =>
+    `hover:text-blue-600 transition ${
+      location.pathname === path ? "text-blue-600 font-semibold" : ""
+    }`;
+
   return (
     <nav className="bg-white shadow-sm px-10 py-4 flex justify-between items-center">
+      
+      {/* LOGO */}
       <Link to="/" className="text-xl font-bold text-blue-600">
         PREFSCALE
       </Link>
 
+      {/* NAV LINKS */}
       <div className="flex items-center gap-6 text-gray-700">
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/services">Services</Link>
-        <Link to="/blog">Blog</Link>
+        <Link to="/" className={linkStyle("/")}>
+          Home
+        </Link>
+
+        <Link to="/about" className={linkStyle("/about")}>
+          About
+        </Link>
+
+        <Link to="/capabilities" className={linkStyle("/Capabilities")}>
+          Capabilities
+        </Link>
+
+        {/* 🔥 Resources (Old Blog Section) */}
+        <Link to="/resources" className={linkStyle("/resources")}>
+          Resources
+        </Link>
+
+        {/* 🔥 NEW All Blogs Section */}
+        <Link to="/allblogs" className={linkStyle("/allblogs")}>
+          All Blogs
+        </Link>
 
         {user ? (
           <>
@@ -36,8 +62,13 @@ export default function Navbar({ user, setUser }) {
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Signup</Link>
+            <Link to="/login" className={linkStyle("/login")}>
+              Login
+            </Link>
+
+            <Link to="/signup" className={linkStyle("/signup")}>
+              Signup
+            </Link>
           </>
         )}
       </div>

@@ -1,27 +1,111 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Resources from "./pages/Resources";
+import Capabilities from "./pages/Capabilities";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Blog from "./pages/Blog";
-import Dashboard from "./pages/Dashboard";
-import UploadBlog from "./pages/UploadBlog";
+import UploadResources from "./pages/UploadResources";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Services from "./pages/Services";
+import AllBlogs from "./pages/AllBlogs";
+import AllBlogDetail from "./pages/AllBlogDetail";
+import UploadAllBlog from "./pages/UploadAllBlog";
 
+/* ======== TOOL PAGES IMPORT ======== */
+import JMeter from "./pages/tools/JMeter";
+import LoadRunner from "./pages/tools/LoadRunner";
+import NeoLoad from "./pages/tools/NeoLoad";
+import Locust from "./pages/tools/Locust";
+import Dynatrace from "./pages/tools/Dynatrace";
+
+
+/* ======== CAPABILITY PAGES (MATCHING YOUR FILE NAMES) ======== */
+import LoadTesting from "./pages/capabilities/LoadTesting";
+import StressTesting from "./pages/capabilities/StressTesting";
+import SpikeTesting from "./pages/capabilities/SpikeTesting";
+import Endurance from "./pages/capabilities/Endurance";
+import EarlyPerformanceTesting from "./pages/capabilities/EarlyPerformanceTesting";
+import UIPerformanceTesting from "./pages/capabilities/UIPerformanceTesting";
+import MobilePerformanceTesting from "./pages/capabilities/MobilePerformanceTesting";
+import APIPerformanceTesting from "./pages/capabilities/APIPerformanceTesting";
+import CloudPerformanceTesting from "./pages/capabilities/CloudPerformanceTesting";
+import ScalabilityTesting from "./pages/capabilities/ScalabilityTesting";
+import DynatraceObservability from "./pages/capabilities/DynatraceObservability";
+
+
+function AnimatedRoutes({ user, setUser }) {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        
+        {/* ===== Main Pages ===== */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/capabilities" element={<Capabilities />} />
+        <Route path="/resources" element={<Resources />} />
+        <Route path="/allblogs" element={<AllBlogs />} />
+        <Route path="/allblogs/:id" element={<AllBlogDetail />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/signup" element={<Signup setUser={setUser} />} />
+
+        {/* ===== Tool Pages (NEW) ===== */}
+        <Route path="/tools/jmeter" element={<JMeter />} />
+        <Route path="/tools/loadrunner" element={<LoadRunner />} />
+        <Route path="/tools/neoload" element={<NeoLoad />} />
+        <Route path="/tools/locust" element={<Locust />} />
+        <Route path="/tools/dynatrace" element={<Dynatrace />} />
+
+        
+      
+        {/* ===== CAPABILITY ROUTES ===== */}
+        <Route path="/capabilities/load-testing" element={<LoadTesting />} />
+        <Route path="/capabilities/stress-testing" element={<StressTesting />} />
+        <Route path="/capabilities/spike-testing" element={<SpikeTesting />} />
+        <Route path="/capabilities/endurance-testing" element={<Endurance />} />
+        <Route path="/capabilities/early-performance-testing" element={<EarlyPerformanceTesting />} />
+        <Route path="/capabilities/ui-performance-testing" element={<UIPerformanceTesting />} />
+        <Route path="/capabilities/mobile-performance-testing" element={<MobilePerformanceTesting />} />
+        <Route path="/capabilities/api-performance-testing" element={<APIPerformanceTesting />} />
+        <Route path="/capabilities/cloud-performance-testing" element={<CloudPerformanceTesting />} />
+        <Route path="/capabilities/scalability-testing" element={<ScalabilityTesting />} />
+        <Route path="/capabilities/dynatrace-observability" element={<DynatraceObservability />} />
+
+
+
+        {/* ===== Protected Routes ===== */}
+        <Route
+          path="/upload-allblog"
+          element={
+            <ProtectedRoute>
+              <UploadAllBlog />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/upload-resources"
+          element={
+            <ProtectedRoute>
+              <UploadResources />
+            </ProtectedRoute>
+          }
+        />        
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 export default function App() {
   const [user, setUser] = useState(() => {
     try {
-      const stored = localStorage.getItem("user");
-      if (!stored || stored === "undefined") return null;
-      return JSON.parse(stored);
-    } catch (err) {
-      console.error("Failed to parse user from localStorage", err);
-      localStorage.removeItem("user");
+      return JSON.parse(localStorage.getItem("user"));
+    } catch {
       return null;
     }
   });
@@ -29,25 +113,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Navbar user={user} setUser={setUser} />
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/login" element={<Login setUser={setUser} />} />
-        <Route path="/signup" element={<Signup setUser={setUser} />} />
-
-        {/* 🔐 ADMIN ONLY: Upload Blog (DIRECT PAGE, NOT DASHBOARD) */}
-        <Route
-          path="/upload-blog"
-          element={
-            <ProtectedRoute>
-              <UploadBlog />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+      <AnimatedRoutes user={user} setUser={setUser} />
     </BrowserRouter>
   );
 }

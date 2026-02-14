@@ -1,184 +1,239 @@
 import {
   ArrowRight,
-  Gauge,
-  Activity,
-  ShieldCheck,
-  Zap,
-  BarChart3,
-  Server,
   Users,
+  Server,
+  BarChart3,
+  ShieldCheck,
+  Landmark,
+  ShoppingCart,
+  CreditCard,
+  HeartPulse,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  FaWhatsapp,
+  FaFacebook,
+  FaLinkedin,
+  FaYoutube,
+  FaTwitter,
+} from "react-icons/fa";
+
+const pageVariant = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -30 },
+};
 
 export default function Home() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  const handleStartTesting = () => {
+    token ? navigate("/allblogs") : navigate("/signup");
+  };
+
+  const handleLearnPerformance = () => {
+    navigate("/allblogs");
+  };
+
+  const handleGetStartedFree = () => {
+    token ? navigate("/") : navigate("/signup");
+  };
+
   return (
-    <div className="bg-white">
+    <motion.div
+      variants={pageVariant}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      transition={{ duration: 0.5 }}
+      className="bg-white"
+    >
 
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative h-[90vh] overflow-hidden bg-black">
-        <img
-          src="https://images.unsplash.com/photo-1518770660439-4636190af475"
-          alt="Technology background"
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
+      {/* ================= HERO WITH LOGO BACKGROUND ================= */}
+      <section
+        className="relative min-h-[95vh] flex items-center bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/assets/PTPE_Logo2.JPG')",
+        }}
+      >
+        {/* Dark Overlay for readability */}
+        <div className="absolute inset-0 bg-black/60"></div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-8 h-full flex items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-8 w-full">
           <div className="max-w-2xl text-white">
-            <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-              Performance Testing <br />
-              <span className="text-slate-300">Built for Scale</span>
+
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+              Engineered for Enterprise Performance and Reliability
             </h1>
 
-            <p className="mt-6 text-lg text-slate-300">
-              PREFSCALE helps engineering teams validate system performance
-              under real-world load — before users experience failures.
+            <p className="mt-6 text-lg text-gray-200">
+              Simulate real-world traffic, uncover performance risks, and ensure
+              your applications deliver consistent, high-quality experiences.
             </p>
 
             <div className="mt-10 flex gap-4">
-              <Link
-                to="/signup"
-                className="bg-white text-slate-900 px-6 py-3 rounded-md font-semibold hover:bg-slate-100 transition"
+              <button
+                onClick={handleStartTesting}
+                className="bg-white text-blue-800 px-6 py-3 rounded-md font-semibold"
               >
                 Start Testing
-              </Link>
+              </button>
 
-              <Link
-                to="/blog"
-                className="flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-md font-medium hover:bg-white/10 transition"
+              <button
+                onClick={handleLearnPerformance}
+                className="flex items-center gap-2 border border-white text-white px-6 py-3 rounded-md"
               >
                 Learn Performance <ArrowRight size={18} />
-              </Link>
+              </button>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ================= STATS SECTION ================= */}
+      {/* ================= METRICS ================= */}
       <section className="py-16 bg-slate-50">
         <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-4 gap-8 text-center">
-          <Stat icon={<Users />} value="100+" label="Concurrent Users Tested" />
-          <Stat icon={<Server />} value="99.9%" label="Uptime Validation" />
-          <Stat icon={<BarChart3 />} value="Real-time" label="Performance Metrics" />
-          <Stat icon={<ShieldCheck />} value="Secure" label="Enterprise Ready" />
+          <Metric icon={<Users size={32} />} value="100+" label="Concurrent Users Tested" />
+          <Metric icon={<Server size={32} />} value="99.9%" label="Uptime Validation" />
+          <Metric icon={<BarChart3 size={32} />} value="Real-time" label="Performance Metrics" />
+          <Metric icon={<ShieldCheck size={32} />} value="Enterprise" label="Security & Reliability" />
         </div>
       </section>
 
-      {/* ================= FEATURES ================= */}
+      {/* ================= INDUSTRY ================= */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-8">
-          <h2 className="text-3xl font-bold text-slate-900 text-center">
+          <h2 className="text-3xl font-bold text-center text-slate-900 mb-14">
             Why Teams Trust PREFSCALE
           </h2>
 
-          <p className="mt-4 text-slate-600 text-center max-w-2xl mx-auto">
-            Built by engineers, for engineers — focused on reliability,
-            scalability, and measurable performance.
-          </p>
-
-          <div className="mt-14 grid md:grid-cols-4 gap-8">
-            <Feature
-              icon={<Gauge />}
-              title="Load Testing"
-              desc="Measure how your system behaves under expected traffic."
-            />
-            <Feature
-              icon={<Zap />}
-              title="Stress & Spike"
-              desc="Validate stability during traffic spikes and peak loads."
-            />
-            <Feature
-              icon={<Activity />}
-              title="Live Insights"
-              desc="Observe response times, failures, and throughput."
-            />
-            <Feature
-              icon={<ShieldCheck />}
-              title="Production Confidence"
-              desc="Ship features knowing your system can handle growth."
-            />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <IndustryCard icon={<Landmark size={40} />} title="Banking Application" desc="Load & stress testing using LoadRunner and Dynatrace." />
+            <IndustryCard icon={<ShoppingCart size={40} />} title="E-Commerce Platform" desc="50K+ concurrent users simulation." />
+            <IndustryCard icon={<CreditCard size={40} />} title="FinTech Platform" desc="Continuous monitoring with Grafana dashboards." />
+            <IndustryCard icon={<HeartPulse size={40} />} title="Healthcare Portal" desc="CI/CD performance gates and optimization." />
+            <IndustryCard icon={<BarChart3 size={40} />} title="Telecom Application" desc="Live streaming scalability testing and database tuning." />
           </div>
         </div>
       </section>
 
-      {/* ================= HOW IT WORKS ================= */}
+      {/* ================= TOOLS ================= */}
       <section className="py-20 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-8">
-          <h2 className="text-3xl font-bold text-slate-900 text-center">
-            How PREFSCALE Works
+        <div className="max-w-7xl mx-auto px-8">
+          <h2 className="text-3xl font-bold text-center text-slate-900">
+            Performance Engineering Excellence
           </h2>
 
-          <div className="mt-16 grid md:grid-cols-3 gap-10">
-            <Step
-              number="01"
-              title="Design Tests"
-              desc="Define real-world traffic scenarios and user behavior."
-            />
-            <Step
-              number="02"
-              title="Execute Load"
-              desc="Simulate concurrent users using proven testing tools."
-            />
-            <Step
-              number="03"
-              title="Analyze Results"
-              desc="Identify bottlenecks and infrastructure limits."
-            />
+          <div className="mt-16 space-y-16">
+            <ToolItem image="/assets/jmeter-logo.png" title="Apache JMeter" link="/tools/jmeter" />
+            <ToolItem image="/assets/loadrunner-logo.png" title="OpenText LoadRunner" link="/tools/loadrunner" />
+            <ToolItem image="/assets/neoload-logo.png" title="NeoLoad" link="/tools/neoload" />
+            <ToolItem image="/assets/locust-logo.png" title="Locust" link="/tools/locust" />
+            <ToolItem image="/assets/dynatrace.jpeg" title="Dynatrace" link="/tools/dynatrace" />
           </div>
         </div>
       </section>
 
       {/* ================= FINAL CTA ================= */}
-      <section className="py-14 bg-gradient-to-r from-slate-800 to-slate-900 text-center text-white">
+      <section className="py-16 bg-gradient-to-r from-blue-900 to-blue-700 text-center text-white">
         <h2 className="text-3xl font-bold">
           Performance Is a Feature
         </h2>
 
-        <p className="mt-4 text-slate-300 max-w-xl mx-auto">
-          Don’t wait for production failures. Test, validate, and scale with confidence.
-        </p>
-
-        <Link
-          to="/signup"
-          className="inline-block mt-6 bg-white text-slate-900 px-8 py-3 rounded-md font-semibold hover:bg-slate-100 transition"
+        <button
+          onClick={handleGetStartedFree}
+          className="mt-8 bg-white text-blue-800 px-8 py-3 rounded-md font-semibold"
         >
           Get Started Free
-        </Link>
+        </button>
       </section>
-    </div>
+
+      {/* ================= FOOTER ================= */}
+      <footer className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-14">
+        <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-4 gap-12">
+
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
+            <p>+91 79871 71669</p>
+            <p>contact.prefscale@gmail.com</p>
+            <p>Pune, India</p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Navigation</h3>
+            <p className="cursor-pointer hover:underline" onClick={() => navigate("/capabilities")}>Capabilities</p>
+            <p className="cursor-pointer hover:underline" onClick={() => navigate("/allblogs")}>Blog</p>
+            <p className="cursor-pointer hover:underline" onClick={() => navigate("/resources")}>Resources</p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Our Services</h3>
+            <p>Performance Testing</p>
+            <p>Performance Engineering</p>
+            <p>Mobile Performance Testing</p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
+            <div className="flex gap-4 text-2xl">
+              <motion.div whileHover={{ scale: 1.2 }}><FaWhatsapp /></motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaFacebook /></motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaLinkedin /></motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaTwitter /></motion.div>
+              <motion.div whileHover={{ scale: 1.2 }}><FaYoutube /></motion.div>
+            </div>
+          </div>
+
+        </div>
+      </footer>
+
+    </motion.div>
   );
 }
 
-/* ================= REUSABLE COMPONENTS ================= */
+/* COMPONENTS */
 
-function Feature({ icon, title, desc }) {
-  return (
-    <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-      <div className="text-slate-700 mb-4">{icon}</div>
-      <h3 className="font-semibold text-slate-900">{title}</h3>
-      <p className="mt-2 text-sm text-slate-600">{desc}</p>
-    </div>
-  );
-}
-
-function Step({ number, title, desc }) {
-  return (
-    <div className="text-center">
-      <div className="text-slate-800 text-5xl font-bold">{number}</div>
-      <h3 className="mt-4 font-semibold text-slate-900">{title}</h3>
-      <p className="mt-2 text-slate-600 text-sm">{desc}</p>
-    </div>
-  );
-}
-
-function Stat({ icon, value, label }) {
+function Metric({ icon, value, label }) {
   return (
     <div>
-      <div className="flex justify-center text-slate-700 mb-3">
-        {icon}
-      </div>
+      <div className="flex justify-center text-blue-700 mb-3">{icon}</div>
       <div className="text-3xl font-bold text-slate-900">{value}</div>
       <p className="mt-1 text-sm text-slate-600">{label}</p>
+    </div>
+  );
+}
+
+function IndustryCard({ icon, title, desc }) {
+  return (
+    <div className="text-center px-4">
+      <div className="flex justify-center text-blue-700 mb-4">{icon}</div>
+      <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+      <p className="mt-3 text-slate-600 text-sm">{desc}</p>
+    </div>
+  );
+}
+
+function ToolItem({ image, title, link }) {
+  const navigate = useNavigate();
+
+  return (
+    <div className="flex flex-col md:flex-row items-center gap-10">
+      <div className="md:w-1/3 flex justify-center">
+        <img src={image} alt={title} className="w-48 object-contain" />
+      </div>
+
+      <div className="md:w-2/3">
+        <h3 className="text-2xl font-semibold text-slate-900">{title}</h3>
+        <button
+          onClick={() => navigate(link)}
+          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+        >
+          Learn more
+        </button>
+      </div>
     </div>
   );
 }
