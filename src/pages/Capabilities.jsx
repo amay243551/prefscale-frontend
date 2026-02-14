@@ -55,17 +55,40 @@ export default function Capabilities() {
       <section className="pb-24 bg-blue-50">
         <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-3 gap-10">
 
-          <CapabilityCard icon={<Gauge size={40} />} title="Load Testing" short="Validate expected user traffic performance." link="/capabilities/load-testing" />
-          <CapabilityCard icon={<Flame size={40} />} title="Stress Testing" short="Test limits under extreme workloads." link="/capabilities/stress-testing" />
-          <CapabilityCard icon={<Clock size={40} />} title="Endurance Testing" short="Validate long-duration stability." link="/capabilities/endurance-testing" />
-          <CapabilityCard icon={<Zap size={40} />} title="Spike Testing" short="Handle sudden traffic surges." link="/capabilities/spike-testing" />
-          <CapabilityCard icon={<Rocket size={40} />} title="Early Performance Testing" short="Shift performance left in SDLC." link="/capabilities/early-performance-testing" />
-          <CapabilityCard icon={<Monitor size={40} />} title="UI Performance Testing" short="Ensure fast frontend responsiveness." link="/capabilities/ui-performance-testing" />
-          <CapabilityCard icon={<Smartphone size={40} />} title="Mobile Performance Testing" short="Optimize mobile responsiveness." link="/capabilities/mobile-performance-testing" />
-          <CapabilityCard icon={<BarChart3 size={40} />} title="Dynatrace Observability" short="AI-driven monitoring & visibility." link="/capabilities/dynatrace-observability" />
-          <CapabilityCard icon={<Link size={40} />} title="API Performance Testing" short="Validate API speed & reliability." link="/capabilities/api-performance-testing" />
-          <CapabilityCard icon={<Cloud size={40} />} title="Cloud Performance Testing" short="Ensure cloud scalability." link="/capabilities/cloud-performance-testing" />
-          <CapabilityCard icon={<TrendingUp size={40} />} title="Scalability Testing" short="Test future growth readiness." link="/capabilities/scalability-testing" />
+          <CapabilityCard icon={<Gauge size={40} />} title="Load Testing" short="Ensure your application can handle anticipated user demand with confidence. Our load
+testing approach replicates real-world traffic patterns to evaluate performance, identify
+bottlenecks, and ensure consistent speed, stability, and scalability before go-live." link="/capabilities/load-testing" />
+          <CapabilityCard icon={<Flame size={40} />} title="Stress Testing" short="Assess how your application performs under extreme workloads and peak demand. We
+simulate high-stress scenarios to uncover system limitations, validate stability, and ensure
+your application can recover quickly and reliably." link="/capabilities/stress-testing" />
+          <CapabilityCard icon={<Clock size={40} />} title="Endurance Testing" short="Validate your system’s ability to perform reliably during prolonged usage. Our endurance
+testing detects performance degradation, memory inefficiencies, and resource constraints to
+ensure stable and uninterrupted operation." link="/capabilities/endurance-testing" />
+          <CapabilityCard icon={<Zap size={40} />} title="Spike Testing" short="Validate your system’s resilience against unexpected traffic surges. Our spike testing
+identifies performance bottlenecks and ensures your application can scale quickly while
+maintaining reliability and seamless user experience." link="/capabilities/spike-testing" />
+          <CapabilityCard icon={<Rocket size={40} />} title="Early Performance Testing" short="Shift performance testing left by validating application performance during development. We
+help detect bottlenecks early, optimize system efficiency, and ensure scalable, high-quality
+releases." link="/capabilities/early-performance-testing" />
+          <CapabilityCard icon={<Monitor size={40} />} title="UI Performance Testing" short="Ensure fast, responsive, and seamless user interfaces across devices and browsers. We
+evaluate rendering speed, page load performance, and frontend responsiveness to deliver
+smooth and consistent user experiences." link="/capabilities/ui-performance-testing" />
+          <CapabilityCard icon={<Smartphone size={40} />} title="Mobile Performance Testing" short="Mobile Performance Testing
+Validate the performance of mobile applications under real-world conditions. We assess
+responsiveness, load times, network behavior, and device compatibility to ensure optimal
+performance across all mobile platforms." link="/capabilities/mobile-performance-testing" />
+          <CapabilityCard icon={<BarChart3 size={40} />} title="Dynatrace Observability" short="Utilize Dynatrace’s AI-driven monitoring to gain complete visibility into application,
+infrastructure, and user experience. We help detect performance issues early and ensure
+continuous reliability in live production environments." link="/capabilities/dynatrace-observability" />
+          <CapabilityCard icon={<Link size={40} />} title="API Performance Testing" short="Ensure your APIs deliver fast, reliable, and scalable performance under varying load
+conditions. We validate response times, throughput, and stability to ensure seamless
+integration and consistent service delivery." link="/capabilities/api-performance-testing" />
+          <CapabilityCard icon={<Cloud size={40} />} title="Cloud Performance Testing" short="Validate the performance and reliability of your applications in cloud environments. We
+assess scalability, resource utilization, and system behavior to ensure optimal performance
+across dynamic cloud infrastructures." link="/capabilities/cloud-performance-testing" />
+          <CapabilityCard icon={<TrendingUp size={40} />} title="Scalability Testing" short="Evaluate your application’s ability to scale efficiently as user demand grows. We simulate
+increasing workloads to identify capacity limits and ensure your system can handle future
+growth with confidence." link="/capabilities/scalability-testing" />
 
         </div>
       </section>
