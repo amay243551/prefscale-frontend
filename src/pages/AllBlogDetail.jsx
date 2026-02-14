@@ -12,7 +12,6 @@ import {
 import api from "../utils/api";
 import jsPDF from "jspdf";
 
-
 export default function AllBlogDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -87,31 +86,35 @@ export default function AllBlogDetail() {
     }
   };
 
-  /* ================= DOWNLOAD ODF ================= */
+  /* ================= DOWNLOAD PDF ================= */
 
   const handleDownload = () => {
-    const htmlContent = `
-      <html>
-        <head><meta charset="utf-8"></head>
-        <body>
-          <h1>${blog.title}</h1>
-          <p>${blog.description || ""}</p>
-          ${blog.content || ""}
-        </body>
-      </html>
-    `;
+    const doc = new jsPDF();
 
-    const converted = htmlDocx.asBlob(htmlContent);
+    doc.setFontSize(18);
+    doc.text(blog.title, 10, 20);
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(converted);
-    link.download = `${blog.title
-      .replace(/[^a-zA-Z0-9]/g, "_")
-      .toLowerCase()}.odf`;
+    doc.setFontSize(12);
 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const textContent = document
+      .createElement("div");
+
+    textContent.innerHTML = blog.content || "";
+
+    const plainText = textContent.innerText;
+
+    const splitText = doc.splitTextToSize(
+      plainText,
+      180
+    );
+
+    doc.text(splitText, 10, 30);
+
+    doc.save(
+      `${blog.title
+        .replace(/[^a-zA-Z0-9]/g, "_")
+        .toLowerCase()}.pdf`
+    );
   };
 
   if (loading)
@@ -172,13 +175,12 @@ export default function AllBlogDetail() {
             url={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`}
           />
 
-          {/* DOWNLOAD BUTTON */}
           <button
             onClick={handleDownload}
             className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
           >
             <Download size={16} />
-            Download ODF
+            Download PDF
           </button>
 
         </div>
@@ -211,10 +213,11 @@ export default function AllBlogDetail() {
               onClick={handleLike}
               disabled={liked}
               className={`flex items-center gap-2 px-5 py-2 rounded-full border transition 
-              ${liked
+              ${
+                liked
                   ? "bg-red-500 text-white"
                   : "hover:bg-red-100 hover:text-red-600"
-                }`}
+              }`}
             >
               <Heart size={18} />
               {blog.likes || 0}
@@ -232,7 +235,6 @@ export default function AllBlogDetail() {
           </div>
 
         </div>
-
       </div>
     </div>
   );
