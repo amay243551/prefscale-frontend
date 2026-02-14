@@ -7,17 +7,14 @@ import {
   ArrowLeft,
   Heart,
   Trash2,
-  Download,
 } from "lucide-react";
 import api from "../utils/api";
-import jsPDF from "jspdf";
 
 export default function AllBlogDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [blog, setBlog] = useState(null);
-  const [recent, setRecent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false);
 
@@ -34,11 +31,6 @@ export default function AllBlogDetail() {
         if (likedBlogs.includes(id)) {
           setLiked(true);
         }
-
-        const recentRes = await api.get(
-          "/api/blogs?section=allblogs"
-        );
-        setRecent(recentRes.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -86,29 +78,6 @@ export default function AllBlogDetail() {
     }
   };
 
-  /* ================= DOWNLOAD PDF ================= */
-
-  const handleDownload = () => {
-    const doc = new jsPDF();
-
-    doc.setFontSize(18);
-    doc.text(blog.title, 10, 20);
-
-    doc.setFontSize(12);
-
-   const plainText = blog.content
-  ? blog.content.replace(/<[^>]+>/g, "")
-  : "";
-
-    doc.text(splitText, 10, 30);
-
-    doc.save(
-      `${blog.title
-        .replace(/[^a-zA-Z0-9]/g, "_")
-        .toLowerCase()}.pdf`
-    );
-  };
-
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -125,10 +94,8 @@ export default function AllBlogDetail() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* HERO */}
       <div className="bg-gradient-to-r from-slate-900 to-black text-white py-16 px-6">
-
         <button
           onClick={() => navigate("/allblogs")}
           className="flex items-center gap-2 text-sm mb-6"
@@ -136,9 +103,7 @@ export default function AllBlogDetail() {
           <ArrowLeft size={16} /> Back to Blogs
         </button>
 
-        <h1 className="text-4xl font-bold">
-          {blog.title}
-        </h1>
+        <h1 className="text-4xl font-bold">{blog.title}</h1>
 
         <div className="flex gap-6 mt-6 text-sm opacity-80">
           <span>By {blog.uploadedBy}</span>
@@ -147,9 +112,8 @@ export default function AllBlogDetail() {
           </span>
         </div>
 
-        {/* SHARE + DOWNLOAD */}
+        {/* SHARE */}
         <div className="flex items-center gap-4 mt-8 flex-wrap">
-
           <span className="text-sm">Share:</span>
 
           <IconShare
@@ -166,23 +130,12 @@ export default function AllBlogDetail() {
             icon={<Linkedin size={18} />}
             url={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`}
           />
-
-          <button
-            onClick={handleDownload}
-            className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
-          >
-            <Download size={16} />
-            Download PDF
-          </button>
-
         </div>
       </div>
 
       {/* MAIN */}
       <div className="max-w-7xl mx-auto px-6 py-16 flex gap-16">
-
         <div className="w-2/3">
-
           {blog.thumbnail && (
             <img
               src={blog.thumbnail}
@@ -200,7 +153,6 @@ export default function AllBlogDetail() {
 
           {/* LIKE + DELETE */}
           <div className="mt-12 flex items-center gap-6">
-
             <button
               onClick={handleLike}
               disabled={liked}
@@ -225,7 +177,6 @@ export default function AllBlogDetail() {
               </button>
             )}
           </div>
-
         </div>
       </div>
     </div>
