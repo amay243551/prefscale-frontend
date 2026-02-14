@@ -158,7 +158,7 @@ export default function Home() {
           <div>
             <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
             <p>+91 79871 71669</p>
-            <p>contact.perfmatrix@gmail.com</p>
+            <p>contact.prefscale@gmail.com</p>
             <p>Pune, India</p>
           </div>
 
