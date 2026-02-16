@@ -19,6 +19,7 @@ export default function AllBlogDetail() {
   const contentRef = useRef();
 
   const [blog, setBlog] = useState(null);
+  const [recentBlogs, setRecentBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false);
 
@@ -29,6 +30,9 @@ export default function AllBlogDetail() {
       try {
         const blogRes = await api.get(`/api/blog/${id}`);
         setBlog(blogRes.data);
+
+        const recentRes = await api.get("/api/blog");
+        setRecentBlogs(recentRes.data.slice(0, 5));
 
         const likedBlogs =
           JSON.parse(localStorage.getItem("likedBlogs")) || [];
@@ -204,8 +208,10 @@ export default function AllBlogDetail() {
       </div>
 
       {/* MAIN */}
-      <div className="max-w-7xl mx-auto px-6 py-16 flex gap-16">
-        <div className="w-2/3" ref={contentRef}>
+      <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row gap-16">
+
+        {/* LEFT SIDE */}
+        <div className="lg:w-2/3 w-full" ref={contentRef}>
 
           {blog.thumbnail && (
             <img
@@ -216,7 +222,7 @@ export default function AllBlogDetail() {
           )}
 
           <div
-            className="prose max-w-none"
+            className="prose prose-lg max-w-full break-words"
             dangerouslySetInnerHTML={{
               __html: blog.content || "",
             }}
@@ -249,6 +255,37 @@ export default function AllBlogDetail() {
             )}
           </div>
         </div>
+
+        {/* RIGHT SIDE - RECENT ARTICLES */}
+        <div className="lg:w-1/3 w-full">
+          <h3 className="text-xl font-semibold mb-6">
+            Recent Articles
+          </h3>
+
+          <div className="space-y-4">
+            {recentBlogs
+              .filter((item) => item._id !== id)
+              .map((item) => (
+                <div
+                  key={item._id}
+                  onClick={() =>
+                    navigate(`/allblogs/${item._id}`)
+                  }
+                  className="cursor-pointer border p-4 rounded-lg hover:shadow-md transition"
+                >
+                  <h4 className="font-medium">
+                    {item.title}
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    {new Date(
+                      item.createdAt
+                    ).toDateString()}
+                  </p>
+                </div>
+              ))}
+          </div>
+        </div>
+
       </div>
     </div>
   );
