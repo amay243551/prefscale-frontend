@@ -25,12 +25,27 @@ export default function AboutUs() {
 
     try {
       setLoading(true);
+
       const res = await api.post("/api/contact", form);
-      alert(res.data.message);
-      setForm({ name: "", company: "", email: "", message: "" });
+
+      alert(res?.data?.message || "Message sent successfully!");
+
+      setForm({
+        name: "",
+        company: "",
+        email: "",
+        message: "",
+      });
     } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Try again.");
+      console.error("Contact Error:", err);
+
+      if (err.response) {
+        alert(err.response.data?.message || "Server error occurred.");
+      } else if (err.request) {
+        alert("Backend not reachable. Please check deployment.");
+      } else {
+        alert("Something went wrong. Try again.");
+      }
     } finally {
       setLoading(false);
     }
