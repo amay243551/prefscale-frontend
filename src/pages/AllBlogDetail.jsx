@@ -25,30 +25,34 @@ export default function AllBlogDetail() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const blogRes = await api.get(`/api/blog/${id}`);
-        setBlog(blogRes.data);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const blogRes = await api.get(`/api/blog/${id}`);
+      setBlog(blogRes.data);
 
-       const recentRes = await api.get("/api/blogs?section=allblogs");
-        setRecentBlogs(recentRes.data.slice(0, 5));
+      const recentRes = await api.get(
+        "/api/blogs?section=allblogs"
+      );
 
-        const likedBlogs =
-          JSON.parse(localStorage.getItem("likedBlogs")) || [];
+      setRecentBlogs(recentRes.data.slice(0, 5));
 
-        if (likedBlogs.includes(id)) {
-          setLiked(true);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+      const likedBlogs =
+        JSON.parse(localStorage.getItem("likedBlogs")) || [];
+
+      if (likedBlogs.includes(id)) {
+        setLiked(true);
       }
-    };
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-  }, [id]);
+  fetchData();
+}, [id]);
+
 
   /* ================= LIKE ================= */
 
