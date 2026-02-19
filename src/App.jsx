@@ -16,7 +16,7 @@ import AllBlogDetail from "./pages/AllBlogDetail";
 import UploadAllBlog from "./pages/UploadAllBlog";
 import AIChat from "./components/AIChat";
 
-/* ======== TOOL PAGES IMPORT ======== */
+/* ======== TOOL PAGES ======== */
 import JMeter from "./pages/tools/JMeter";
 import LoadRunner from "./pages/tools/LoadRunner";
 import NeoLoad from "./pages/tools/NeoLoad";
@@ -52,9 +52,6 @@ function AnimatedRoutes({ user, setUser }) {
         <Route path="/allblogs/:id" element={<AllBlogDetail />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
-
-        {/* ===== AI Assistant Route ===== */}
-        <Route path="/ai-assistant" element={<AIChat />} />
 
         {/* ===== Tool Pages ===== */}
         <Route path="/tools/jmeter" element={<JMeter />} />
@@ -113,6 +110,7 @@ export default function App() {
     <BrowserRouter>
       <Navbar user={user} setUser={setUser} />
       <AnimatedRoutes user={user} setUser={setUser} />
+      <AIChat /> {/* ✅ Floating chatbot globally added */}
     </BrowserRouter>
   );
 }
