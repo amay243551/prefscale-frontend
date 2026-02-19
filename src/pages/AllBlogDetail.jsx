@@ -25,34 +25,33 @@ export default function AllBlogDetail() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const blogRes = await api.get(`/api/blog/${id}`);
-      setBlog(blogRes.data);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const blogRes = await api.get(`/api/blog/${id}`);
+        setBlog(blogRes.data);
 
-      const recentRes = await api.get(
-        "/api/blogs?section=allblogs"
-      );
+        const recentRes = await api.get(
+          "/api/blogs?section=allblogs"
+        );
 
-      setRecentBlogs(recentRes.data.slice(0, 5));
+        setRecentBlogs(recentRes.data.slice(0, 5));
 
-      const likedBlogs =
-        JSON.parse(localStorage.getItem("likedBlogs")) || [];
+        const likedBlogs =
+          JSON.parse(localStorage.getItem("likedBlogs")) || [];
 
-      if (likedBlogs.includes(id)) {
-        setLiked(true);
+        if (likedBlogs.includes(id)) {
+          setLiked(true);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  fetchData();
-}, [id]);
-
+    fetchData();
+  }, [id]);
 
   /* ================= LIKE ================= */
 
@@ -147,67 +146,71 @@ useEffect(() => {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-blue-50">
         Loading...
       </div>
     );
 
   if (!blog)
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-blue-50">
         Blog not found.
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-blue-50">
 
       {/* HERO */}
-      <div className="bg-gradient-to-r from-slate-900 to-black text-white py-16 px-6">
-        <button
-          onClick={() => navigate("/allblogs")}
-          className="flex items-center gap-2 text-sm mb-6"
-        >
-          <ArrowLeft size={16} /> Back to Blogs
-        </button>
-
-        <h1 className="text-4xl font-bold">
-          {blog.title}
-        </h1>
-
-        <div className="flex gap-6 mt-6 text-sm opacity-80">
-          <span>By {blog.uploadedBy}</span>
-          <span>
-            {new Date(blog.createdAt).toDateString()}
-          </span>
-        </div>
-
-        {/* SHARE + DOWNLOAD */}
-        <div className="flex items-center gap-4 mt-8 flex-wrap">
-          <span className="text-sm">Share:</span>
-
-          <IconShare
-            icon={<Twitter size={18} />}
-            url={`https://twitter.com/intent/tweet?url=${window.location.href}`}
-          />
-
-          <IconShare
-            icon={<Facebook size={18} />}
-            url={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}
-          />
-
-          <IconShare
-            icon={<Linkedin size={18} />}
-            url={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`}
-          />
+      <div className="bg-white shadow-sm py-12 px-6 border-b">
+        <div className="max-w-7xl mx-auto">
 
           <button
-            onClick={handleDownload}
-            className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
+            onClick={() => navigate("/allblogs")}
+            className="flex items-center gap-2 text-sm mb-6 text-blue-600 hover:text-blue-700"
           >
-            <Download size={16} />
-            Download PDF
+            <ArrowLeft size={16} /> Back to Blogs
           </button>
+
+          <h1 className="text-4xl font-bold text-slate-800">
+            {blog.title}
+          </h1>
+
+          <div className="flex gap-6 mt-4 text-sm text-gray-500">
+            <span>By {blog.uploadedBy}</span>
+            <span>
+              {new Date(blog.createdAt).toDateString()}
+            </span>
+          </div>
+
+          {/* SHARE + DOWNLOAD */}
+          <div className="flex items-center gap-4 mt-6 flex-wrap">
+
+            <span className="text-sm text-gray-600">Share:</span>
+
+            <IconShare
+              icon={<Twitter size={18} />}
+              url={`https://twitter.com/intent/tweet?url=${window.location.href}`}
+            />
+
+            <IconShare
+              icon={<Facebook size={18} />}
+              url={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}
+            />
+
+            <IconShare
+              icon={<Linkedin size={18} />}
+              url={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`}
+            />
+
+            <button
+              onClick={handleDownload}
+              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+            >
+              <Download size={16} />
+              Download PDF
+            </button>
+          </div>
         </div>
       </div>
 
@@ -215,12 +218,15 @@ useEffect(() => {
       <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row gap-16">
 
         {/* LEFT SIDE */}
-        <div className="lg:w-2/3 w-full" ref={contentRef}>
+        <div
+          className="lg:w-2/3 w-full bg-white p-10 rounded-2xl shadow-lg"
+          ref={contentRef}
+        >
 
           {blog.thumbnail && (
             <img
               src={blog.thumbnail}
-              className="rounded-xl mb-10 shadow-lg"
+              className="rounded-xl mb-10 shadow-md"
               alt="thumbnail"
             />
           )}
@@ -251,7 +257,7 @@ useEffect(() => {
             {user?.role === "admin" && (
               <button
                 onClick={handleDelete}
-                className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white"
+                className="flex items-center gap-2 px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
               >
                 <Trash2 size={16} />
                 Delete
@@ -260,33 +266,35 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* RIGHT SIDE - RECENT ARTICLES */}
+        {/* RIGHT SIDE */}
         <div className="lg:w-1/3 w-full">
-          <h3 className="text-xl font-semibold mb-6">
-            Recent Articles
-          </h3>
+          <div className="bg-white p-8 rounded-2xl shadow-lg">
+            <h3 className="text-xl font-semibold mb-6 text-slate-800">
+              Recent Articles
+            </h3>
 
-          <div className="space-y-4">
-            {recentBlogs
-              .filter((item) => item._id !== id)
-              .map((item) => (
-                <div
-                  key={item._id}
-                  onClick={() =>
-                    navigate(`/allblogs/${item._id}`)
-                  }
-                  className="cursor-pointer border p-4 rounded-lg hover:shadow-md transition"
-                >
-                  <h4 className="font-medium">
-                    {item.title}
-                  </h4>
-                  <p className="text-sm text-gray-500">
-                    {new Date(
-                      item.createdAt
-                    ).toDateString()}
-                  </p>
-                </div>
-              ))}
+            <div className="space-y-4">
+              {recentBlogs
+                .filter((item) => item._id !== id)
+                .map((item) => (
+                  <div
+                    key={item._id}
+                    onClick={() =>
+                      navigate(`/allblogs/${item._id}`)
+                    }
+                    className="cursor-pointer border p-4 rounded-lg hover:shadow-md transition"
+                  >
+                    <h4 className="font-medium text-slate-800">
+                      {item.title}
+                    </h4>
+                    <p className="text-sm text-gray-500">
+                      {new Date(
+                        item.createdAt
+                      ).toDateString()}
+                    </p>
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
 
@@ -299,7 +307,7 @@ function IconShare({ icon, url }) {
   return (
     <div
       onClick={() => window.open(url, "_blank")}
-      className="w-10 h-10 flex items-center justify-center rounded-full border border-white hover:bg-white hover:text-black cursor-pointer"
+      className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-blue-100 hover:text-blue-600 cursor-pointer transition"
     >
       {icon}
     </div>
