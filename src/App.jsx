@@ -16,7 +16,6 @@ import AllBlogDetail from "./pages/AllBlogDetail";
 import UploadAllBlog from "./pages/UploadAllBlog";
 import AIChat from "./components/AIChat";
 
-
 /* ======== TOOL PAGES IMPORT ======== */
 import JMeter from "./pages/tools/JMeter";
 import LoadRunner from "./pages/tools/LoadRunner";
@@ -24,8 +23,7 @@ import NeoLoad from "./pages/tools/NeoLoad";
 import Locust from "./pages/tools/Locust";
 import Dynatrace from "./pages/tools/Dynatrace";
 
-
-/* ======== CAPABILITY PAGES (MATCHING YOUR FILE NAMES) ======== */
+/* ======== CAPABILITY PAGES ======== */
 import LoadTesting from "./pages/capabilities/LoadTesting";
 import StressTesting from "./pages/capabilities/StressTesting";
 import SpikeTesting from "./pages/capabilities/SpikeTesting";
@@ -38,14 +36,13 @@ import CloudPerformanceTesting from "./pages/capabilities/CloudPerformanceTestin
 import ScalabilityTesting from "./pages/capabilities/ScalabilityTesting";
 import DynatraceObservability from "./pages/capabilities/DynatraceObservability";
 
-
 function AnimatedRoutes({ user, setUser }) {
   const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        
+
         {/* ===== Main Pages ===== */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -56,16 +53,17 @@ function AnimatedRoutes({ user, setUser }) {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
 
-        {/* ===== Tool Pages (NEW) ===== */}
+        {/* ===== AI Assistant Route ===== */}
+        <Route path="/ai-assistant" element={<AIChat />} />
+
+        {/* ===== Tool Pages ===== */}
         <Route path="/tools/jmeter" element={<JMeter />} />
         <Route path="/tools/loadrunner" element={<LoadRunner />} />
         <Route path="/tools/neoload" element={<NeoLoad />} />
         <Route path="/tools/locust" element={<Locust />} />
         <Route path="/tools/dynatrace" element={<Dynatrace />} />
 
-        
-      
-        {/* ===== CAPABILITY ROUTES ===== */}
+        {/* ===== Capability Routes ===== */}
         <Route path="/capabilities/load-testing" element={<LoadTesting />} />
         <Route path="/capabilities/stress-testing" element={<StressTesting />} />
         <Route path="/capabilities/spike-testing" element={<SpikeTesting />} />
@@ -78,8 +76,6 @@ function AnimatedRoutes({ user, setUser }) {
         <Route path="/capabilities/scalability-testing" element={<ScalabilityTesting />} />
         <Route path="/capabilities/dynatrace-observability" element={<DynatraceObservability />} />
 
-
-
         {/* ===== Protected Routes ===== */}
         <Route
           path="/upload-allblog"
@@ -89,17 +85,6 @@ function AnimatedRoutes({ user, setUser }) {
             </ProtectedRoute>
           }
         />
-{/* ===== Routes of AI Assistant  ===== */}
-        function App() {
-  return (
-    <>
-      <AIChat />
-    </>
-  );
-}
-
-export default App;
-
 
         <Route
           path="/upload-resources"
@@ -108,7 +93,8 @@ export default App;
               <UploadResources />
             </ProtectedRoute>
           }
-        />        
+        />
+
       </Routes>
     </AnimatePresence>
   );
