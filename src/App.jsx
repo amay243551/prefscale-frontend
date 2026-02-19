@@ -14,6 +14,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AllBlogs from "./pages/AllBlogs";
 import AllBlogDetail from "./pages/AllBlogDetail";
 import UploadAllBlog from "./pages/UploadAllBlog";
+import AIChat from "./components/AIChat";
+
 
 /* ======== TOOL PAGES IMPORT ======== */
 import JMeter from "./pages/tools/JMeter";
@@ -87,6 +89,17 @@ function AnimatedRoutes({ user, setUser }) {
             </ProtectedRoute>
           }
         />
+{/* ===== Routes of AI Assistant  ===== */}
+        function App() {
+  return (
+    <>
+      <AIChat />
+    </>
+  );
+}
+
+export default App;
+
 
         <Route
           path="/upload-resources"
