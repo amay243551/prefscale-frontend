@@ -26,28 +26,32 @@ export default function AllBlogs() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white py-20 px-6">
+    <div className="min-h-screen bg-blue-50 py-20">
 
-      <div className="max-w-7xl mx-auto flex justify-between items-center mb-16">
-        <h1 className="text-5xl font-bold">All Blogs</h1>
+      {/* HEADER */}
+      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center mb-16">
+        <h1 className="text-5xl font-bold text-slate-800">
+          All Blogs
+        </h1>
 
         {role === "admin" && (
           <button
             onClick={() => navigate("/upload-allblog")}
-            className="flex items-center gap-2 bg-blue-600 px-6 py-3 rounded-xl"
+            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition"
           >
             <Plus size={18} /> Add Blog
           </button>
         )}
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+      {/* BLOG GRID */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto px-6">
 
         {blogs.map((blog) => (
           <motion.div
             key={blog._id}
             whileHover={{ scale: 1.03 }}
-            className="bg-slate-900 rounded-2xl overflow-hidden shadow-xl"
+            className="bg-white shadow-lg rounded-2xl overflow-hidden border hover:shadow-xl transition"
           >
 
             {/* Thumbnail */}
@@ -63,25 +67,25 @@ export default function AllBlogs() {
               className="p-6 cursor-pointer"
               onClick={() => navigate(`/allblogs/${blog._id}`)}
             >
-              <h2 className="text-2xl font-bold mb-3">
+              <h2 className="text-2xl font-bold mb-3 text-slate-800">
                 {blog.title}
               </h2>
 
-              <p className="text-slate-400 mb-4 line-clamp-3">
+              <p className="text-gray-600 mb-4 line-clamp-3">
                 {blog.description}
               </p>
 
-              <div className="text-sm text-slate-500">
+              <div className="text-sm text-gray-500">
                 {new Date(blog.createdAt).toDateString()}
               </div>
             </div>
 
             {/* Admin Delete */}
             {role === "admin" && (
-              <div className="p-4 border-t border-slate-800">
+              <div className="p-4 border-t">
                 <button
                   onClick={() => handleDelete(blog._id)}
-                  className="flex items-center gap-2 text-red-500 hover:text-red-400"
+                  className="flex items-center gap-2 text-red-600 hover:text-red-500"
                 >
                   <Trash2 size={16} /> Delete
                 </button>
