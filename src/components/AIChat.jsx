@@ -2,30 +2,45 @@ import { useState, useEffect, useRef } from "react";
 
 export default function AIChat() {
   const API_URL = import.meta.env.VITE_BACKEND_URL;
+  const token = localStorage.getItem("token");
 
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState(() => {
-    const saved = sessionStorage.getItem("prefscale_chat");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [messages, setMessages] = useState([]); // ✅ removed sessionStorage
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   const chatEndRef = useRef(null);
+
+  /* ===== Load Chat History From Backend ===== */
+  useEffect(() => {
+    if (!token) return;
+
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/ai/history`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        setMessages(data.messages || []);
+      } catch (err) {
+        console.error("Failed to load chat history");
+      }
+    };
+
+    fetchHistory();
+  }, [token]);
 
   /* ===== Auto Scroll ===== */
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  /* ===== Save Chat to Session ===== */
+  /* ===== Welcome Message (Only If No History) ===== */
   useEffect(() => {
-    sessionStorage.setItem("prefscale_chat", JSON.stringify(messages));
-  }, [messages]);
-
-  /* ===== Welcome Message ===== */
-  useEffect(() => {
-    if (isOpen && messages.length === 0) {
+    if (isOpen && messages.length === 0 && token) {
       setMessages([
         {
           role: "assistant",
@@ -36,7 +51,7 @@ export default function AIChat() {
   }, [isOpen]);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || !token) return;
 
     const userMessage = { role: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
@@ -50,6 +65,7 @@ export default function AIChat() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ message: currentInput }),
       });
@@ -165,7 +181,6 @@ export default function AIChat() {
           ))}
 
           {loading && <div>Thinking...</div>}
-
           <div ref={chatEndRef} />
         </div>
 
