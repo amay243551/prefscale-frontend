@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function AIChat() {
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
+  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,13 +33,10 @@ export default function AIChat() {
         ...prev,
         { role: "assistant", text: data.reply },
       ]);
-    } catch (error) {
+    } catch (err) {
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          text: "Something went wrong. Please try again.",
-        },
+        { role: "assistant", text: "Something went wrong." },
       ]);
     }
 
@@ -46,31 +44,43 @@ export default function AIChat() {
   };
 
   return (
-    <div className="ai-container">
-      <h2>Prefscale AI Assistant</h2>
+    <>
+      {/* Floating Button */}
+      <div className="chat-toggle" onClick={() => setIsOpen(!isOpen)}>
+        💬
+      </div>
 
-      <div className="chat-box">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={msg.role === "user" ? "user-msg" : "ai-msg"}
-          >
-            {msg.text}
+      {/* Chat Window */}
+      {isOpen && (
+        <div className="chat-window">
+          <div className="chat-header">
+            Prefscale AI
+            <span onClick={() => setIsOpen(false)}>✖</span>
           </div>
-        ))}
-        {loading && <div className="ai-msg">Thinking...</div>}
-      </div>
 
-      <div className="input-area">
-        <input
-          type="text"
-          placeholder="Ask about testing..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
-    </div>
+          <div className="chat-body">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={msg.role === "user" ? "user-msg" : "ai-msg"}
+              >
+                {msg.text}
+              </div>
+            ))}
+            {loading && <div className="ai-msg">Thinking...</div>}
+          </div>
+
+          <div className="chat-input">
+            <input
+              value={input}
+              placeholder="Ask about testing..."
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            />
+            <button onClick={sendMessage}>Send</button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
