@@ -31,7 +31,7 @@ export default function AllBlogDetail() {
         const blogRes = await api.get(`/api/blog/${id}`);
         setBlog(blogRes.data);
 
-        const recentRes = await api.get("/api/blog");
+       const recentRes = await api.get("/api/blogs?section=allblogs");
         setRecentBlogs(recentRes.data.slice(0, 5));
 
         const likedBlogs =
